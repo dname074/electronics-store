@@ -13,4 +13,7 @@ class Configuration {
     private final ConfigType configType;
     private String value;
     private BigDecimal price;
+    private boolean isDefault;
+    private Long productId;
+    private String label;
 }
