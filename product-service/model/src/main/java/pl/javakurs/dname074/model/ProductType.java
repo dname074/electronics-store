@@ -1,5 +1,5 @@
 package pl.javakurs.dname074.model;
 
-enum ElectronicsType {
+public enum ProductType {
     COMPUTER, LAPTOP, SMARTPHONE
 }

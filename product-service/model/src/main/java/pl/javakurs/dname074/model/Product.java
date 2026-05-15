@@ -13,7 +13,8 @@ import java.util.List;
 public class Product {
     private Long id;
     private String name;
-    private BigDecimal price;
-    private ElectronicsType type;
-    private List<Configuration> configuration;
+    private BigDecimal basePrice;
+    private ProductType type;
+    private String label;
+    private List<ProductConfiguration> configurations;
 }

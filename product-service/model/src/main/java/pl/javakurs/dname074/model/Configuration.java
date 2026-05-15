@@ -9,11 +9,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Getter
 @Setter
-class Configuration {
-    private final ConfigType configType;
-    private String value;
+public class Configuration {
+    private final ConfigType type;
     private BigDecimal price;
-    private boolean isDefault;
     private Long productId;
     private String label;
 }
