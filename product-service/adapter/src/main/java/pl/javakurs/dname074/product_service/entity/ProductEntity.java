@@ -19,6 +19,8 @@ public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true, nullable = false)
+    private String sku;
     private String name;
     @Column(name = "base_price")
     private BigDecimal basePrice;

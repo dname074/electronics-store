@@ -7,6 +7,8 @@ import pl.javakurs.dname074.domain.ProductRepositoryProvider;
 import pl.javakurs.dname074.model.PagePojo;
 import pl.javakurs.dname074.model.Product;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class ProductRepositoryAdapter implements ProductRepositoryProvider {
@@ -16,16 +18,26 @@ public class ProductRepositoryAdapter implements ProductRepositoryProvider {
 
     @Override
     public PagePojo<Product> findAll(int page, int size) {
-        PagePojo<Product> productPage = pageMapper.entityToPojo(
+        return pageMapper.entityToPojo(
                 repository.findAll(PageRequest.of(page, size)),
                 mapper::entityToPojo
         );
-        return productPage;
     }
 
     @Override
-    public Product findById(Long id) {
-        return mapper.entityToPojo(repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Not found")));
+    public Optional<Product> findById(Long id) {
+        return repository.findById(id)
+                .map(mapper::entityToPojo);
+    }
+
+    @Override
+    public Optional<Product> findBySku(String sku) {
+        return repository.findBySku(sku)
+                .map(mapper::entityToPojo);
+    }
+
+    @Override
+    public Product save(Product product) {
+        return mapper.entityToPojo(repository.save(mapper.pojoToEntity(product)));
     }
 }

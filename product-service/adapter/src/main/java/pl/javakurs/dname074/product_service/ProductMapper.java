@@ -8,7 +8,7 @@ import pl.javakurs.dname074.model.ProductConfiguration;
 import pl.javakurs.dname074.product_service.entity.ProductConfigurationEntity;
 import pl.javakurs.dname074.product_service.entity.ProductEntity;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = ConfigurationMapper.class)
 public interface ProductMapper {
     ProductDto pojoToDto(Product product);
     Product entityToPojo(ProductEntity product);

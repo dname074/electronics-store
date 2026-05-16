@@ -6,7 +6,6 @@ import pl.javakurs.dname074.domain.ProductServiceProvider;
 import pl.javakurs.dname074.dto.CreateProductCommand;
 import pl.javakurs.dname074.dto.PageDto;
 import pl.javakurs.dname074.dto.ProductDto;
-import pl.javakurs.dname074.model.Product;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,27 +26,27 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getProduct(@PathVariable Long id) {
-        return productService.getProduct(id);
+    public ProductDto getProduct(@PathVariable Long id) {
+        return productMapper.pojoToDto(productService.getProduct(id));
     }
 
     @PostMapping
-    public Product addProduct(CreateProductCommand product) {
-        return null;
+    public ProductDto addProduct(@RequestBody CreateProductCommand product) {
+        return productMapper.pojoToDto(productService.addProduct(productMapper.dtoToPojo(product)));
     }
 
     @PutMapping("/{id}")
-    public Product modifyProduct(@PathVariable Long id, CreateProductCommand product) {
-        return null;
+    public ProductDto modifyProduct(@PathVariable Long id, @RequestBody CreateProductCommand product) {
+        return productMapper.pojoToDto(productService.modifyProduct(id, productMapper.dtoToPojo(product)));
     }
 
     @PatchMapping("/{productId}/configurations/{configurationId}")
-    public Product addConfigurationToProduct(@PathVariable Long productId, @PathVariable Long configurationId) {
-        return null;
+    public ProductDto addConfigurationToProduct(@PathVariable Long productId, @PathVariable Long configurationId, @RequestParam Boolean isDefault) {
+        return productMapper.pojoToDto(productService.addConfigurationToProduct(productId, configurationId, isDefault));
     }
 
     @DeleteMapping("/{id}")
-    public Product removeProduct(@PathVariable Long id) {
+    public ProductDto removeProduct(@PathVariable Long id) {
         return null;
     }
 }
