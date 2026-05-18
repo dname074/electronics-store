@@ -6,9 +6,9 @@ import java.math.BigDecimal;
 
 public record ConfigurationDto(
         Long id,
+        String name,
         ConfigType type,
         BigDecimal price,
-        Boolean isDefault,
         String label
 ) {
 }

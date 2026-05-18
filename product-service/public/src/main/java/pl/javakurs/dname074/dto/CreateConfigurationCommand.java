@@ -5,9 +5,10 @@ import pl.javakurs.dname074.model.ConfigType;
 import java.math.BigDecimal;
 
 public record CreateConfigurationCommand(
+        String name,
         ConfigType type,
         BigDecimal price,
-        Boolean isDefault,
-        String label
+        String label,
+        Long productId
 ) {
 }

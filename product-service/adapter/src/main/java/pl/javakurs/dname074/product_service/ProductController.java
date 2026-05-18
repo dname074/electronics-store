@@ -6,6 +6,7 @@ import pl.javakurs.dname074.domain.ProductServiceProvider;
 import pl.javakurs.dname074.dto.CreateProductCommand;
 import pl.javakurs.dname074.dto.PageDto;
 import pl.javakurs.dname074.dto.ProductDto;
+import pl.javakurs.dname074.model.ProductType;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,12 +18,12 @@ public class ProductController {
     // add, delete, update, products page, available configurations
 
     @GetMapping
-    public PageDto<ProductDto> getProductsPage(@RequestParam Integer page, @RequestParam Integer size) {
-        PageDto<ProductDto> productPage = pageMapper.toDto(
-                productService.getProductsPage(page, size),
+    public PageDto<ProductDto> getProductsPage(@RequestParam Integer page, @RequestParam Integer size,
+                                               @RequestParam ProductType type) {
+        return pageMapper.toDto(
+                productService.getProductsPage(page, size, type),
                 productMapper::pojoToDto
         );
-        return productPage;
     }
 
     @GetMapping("/{id}")
@@ -47,6 +48,6 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ProductDto removeProduct(@PathVariable Long id) {
-        return null;
+        return productMapper.pojoToDto(productService.removeProduct(id));
     }
 }

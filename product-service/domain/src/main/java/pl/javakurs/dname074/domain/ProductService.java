@@ -6,6 +6,7 @@ import pl.javakurs.dname074.model.Configuration;
 import pl.javakurs.dname074.model.PagePojo;
 import pl.javakurs.dname074.model.Product;
 import pl.javakurs.dname074.model.ProductConfiguration;
+import pl.javakurs.dname074.model.ProductType;
 import pl.javakurs.dname074.model.exception.AlreadyContainsDefaultConfigException;
 import pl.javakurs.dname074.model.exception.ResourceAlreadyExistsException;
 import pl.javakurs.dname074.model.exception.ResourceNotFoundException;
@@ -18,8 +19,8 @@ public class ProductService implements ProductServiceProvider {
     private final ConfigurationRepositoryProvider configurationRepository;
 
     @Override
-    public PagePojo<Product> getProductsPage(int page, int size) {
-        return productRepository.findAll(page, size);
+    public PagePojo<Product> getProductsPage(int page, int size, ProductType type) {
+        return productRepository.findAll(page, size, type);
     }
 
     @Override
@@ -53,12 +54,18 @@ public class ProductService implements ProductServiceProvider {
             throw new AlreadyContainsDefaultConfigException("Selected product already contains default configuration of provided config type.");
         }
 
-        ProductConfiguration productConfiguration = new ProductConfiguration(product, configuration, isDefault);
+        ProductConfiguration productConfiguration = new ProductConfiguration(configuration, isDefault);
         product.addConfiguration(productConfiguration);
         return productRepository.save(product);
     }
 
-    private Boolean containsDefaultConfiguration(List<ProductConfiguration> configurationList, ConfigType configType) {
+    @Override
+    public Product removeProduct(Long id) {
+        Product product = getProduct(id);
+        return productRepository.delete(product);
+    }
+
+    private boolean containsDefaultConfiguration(List<ProductConfiguration> configurationList, ConfigType configType) {
             return configurationList.stream()
                     .filter(productConfiguration -> productConfiguration.getIsDefault()==true)
                     .map(ProductConfiguration::getConfiguration)

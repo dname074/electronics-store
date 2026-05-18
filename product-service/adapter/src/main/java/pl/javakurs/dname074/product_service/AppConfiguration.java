@@ -12,13 +12,15 @@ import pl.javakurs.dname074.domain.ProductServiceProvider;
 @Configuration
 public class AppConfiguration {
     @Bean
-    public ProductServiceProvider productService(ProductRepositoryProvider productRepository, ConfigurationRepositoryProvider configurationRepository) {
+    public ProductServiceProvider productService(ProductRepositoryProvider productRepository,
+                                                 ConfigurationRepositoryProvider configurationRepository) {
         return new ProductService(productRepository, configurationRepository);
     }
 
     @Bean
-    public ConfigurationServiceProvider configurationService(ConfigurationRepositoryProvider configurationRepository) {
-        return new ConfigurationService(configurationRepository);
+    public ConfigurationServiceProvider configurationService(ConfigurationRepositoryProvider configurationRepository,
+                                                             ProductRepositoryProvider productRepository) {
+        return new ConfigurationService(configurationRepository, productRepository);
     }
 
     @Bean

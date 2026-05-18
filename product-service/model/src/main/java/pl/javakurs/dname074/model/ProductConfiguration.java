@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductConfiguration {
-    private Product product;
     private Configuration configuration;
     private Boolean isDefault;
 }
