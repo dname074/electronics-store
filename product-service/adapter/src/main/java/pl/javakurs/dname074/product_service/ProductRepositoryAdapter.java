@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class ProductRepositoryAdapter implements ProductRepositoryProvider {
+class ProductRepositoryAdapter implements ProductRepositoryProvider {
     private final ProductRepository repository;
     private final ProductMapper productMapper;
     private final PageMapper pageMapper;

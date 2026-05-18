@@ -11,7 +11,7 @@ import pl.javakurs.dname074.model.ProductType;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/products")
-public class ProductController {
+class ProductController {
     private final ProductServiceProvider productService;
     private final ProductMapper productMapper;
     private final PageMapper pageMapper;

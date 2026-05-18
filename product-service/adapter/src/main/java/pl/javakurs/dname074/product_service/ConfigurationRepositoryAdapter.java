@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class ConfigurationRepositoryAdapter implements ConfigurationRepositoryProvider {
+class ConfigurationRepositoryAdapter implements ConfigurationRepositoryProvider {
     private final ConfigurationRepository repository;
     private final ConfigurationMapper configurationMapper;
 

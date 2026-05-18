@@ -13,7 +13,7 @@ import pl.javakurs.dname074.model.Configuration;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/configurations")
-public class ConfigurationController {
+class ConfigurationController {
     private final ConfigurationServiceProvider configurationService;
     private final ConfigurationMapper configurationMapper;
 

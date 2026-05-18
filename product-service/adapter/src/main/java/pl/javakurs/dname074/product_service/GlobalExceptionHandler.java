@@ -8,7 +8,7 @@ import pl.javakurs.dname074.dto.ExceptionResponseDto;
 import pl.javakurs.dname074.model.exception.GlobalException;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+class GlobalExceptionHandler {
     @ExceptionHandler(GlobalException.class)
     public ResponseEntity<ExceptionResponseDto> handleGlobalException(GlobalException exception) {
         HttpStatus status = HttpStatus.valueOf(exception.getStatus().toString());

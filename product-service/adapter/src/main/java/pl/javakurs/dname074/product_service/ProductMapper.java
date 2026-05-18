@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = ConfigurationMapper.class)
-public abstract class ProductMapper {
+abstract class ProductMapper {
     @Autowired
     protected ConfigurationMapper configurationMapper;
 

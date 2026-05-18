@@ -7,7 +7,7 @@ import pl.javakurs.dname074.model.Configuration;
 import pl.javakurs.dname074.product_service.entity.ConfigurationEntity;
 
 @Mapper(componentModel = "spring")
-public interface ConfigurationMapper {
+interface ConfigurationMapper {
     ConfigurationDto toDto(Configuration configuration);
 
     Configuration entityToPojo(ConfigurationEntity configuration);

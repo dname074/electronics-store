@@ -7,7 +7,7 @@ import pl.javakurs.dname074.model.PagePojo;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class PageMapperImpl implements PageMapper {
+class PageMapperImpl implements PageMapper {
     @Override
     public <T, R> PageDto<R> toDto(PagePojo<T> page, Function<T, R> mapper) {
         return new PageDto<>(

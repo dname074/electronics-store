@@ -12,7 +12,7 @@ import pl.javakurs.dname074.product_service.entity.ProductEntity;
 import java.util.Optional;
 
 @Repository
-public interface ProductRepository extends JpaRepository<ProductEntity, Long>, JpaSpecificationExecutor<ProductEntity> {
+interface ProductRepository extends JpaRepository<ProductEntity, Long>, JpaSpecificationExecutor<ProductEntity> {
     Optional<ProductEntity> findBySku(String sku);
 
     @Override
