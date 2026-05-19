@@ -8,7 +8,7 @@ import java.util.List;
 public record ProductDto(
         Long id,
         String sku,
-        BigDecimal basePrice,
+        BigDecimal totalPrice,
         ProductType type,
         String label,
         List<ConfigurationDto> configurations

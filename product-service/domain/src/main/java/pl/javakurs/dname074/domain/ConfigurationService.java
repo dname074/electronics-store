@@ -1,12 +1,14 @@
 package pl.javakurs.dname074.domain;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import pl.javakurs.dname074.model.Configuration;
 import pl.javakurs.dname074.model.InvalidProductTypeException;
 import pl.javakurs.dname074.model.Product;
 import pl.javakurs.dname074.model.exception.ResourceAlreadyExistsException;
 import pl.javakurs.dname074.model.exception.ResourceNotFoundException;
 
+@Slf4j
 @RequiredArgsConstructor
 public class ConfigurationService implements ConfigurationServiceProvider {
     private final ConfigurationRepositoryProvider configurationRepository;
@@ -14,6 +16,7 @@ public class ConfigurationService implements ConfigurationServiceProvider {
 
     @Override
     public Configuration addConfiguration(Configuration configuration, Long productId) {
+        log.info("Process of adding new configuration has started");
         if (productId == null && configurationRepository.existsByNameAndType(configuration.getName(), configuration.getType())) {
             throw new ResourceAlreadyExistsException("Provided configuration already exists");
         }
@@ -29,7 +32,7 @@ public class ConfigurationService implements ConfigurationServiceProvider {
             throw new InvalidProductTypeException("Product type doesn't match provided configuration's type");
         }
         configuration.setProduct(product);
-
+        log.info("Process of adding new configuration has ended");
         return configurationRepository.save(configuration);
     }
 

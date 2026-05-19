@@ -15,6 +15,7 @@ import pl.javakurs.dname074.model.ProductConfiguration;
 import pl.javakurs.dname074.product_service.entity.ProductConfigurationEntity;
 import pl.javakurs.dname074.product_service.entity.ProductEntity;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +25,7 @@ abstract class ProductMapper {
     protected ConfigurationMapper configurationMapper;
 
     @Mapping(target = "configurations", qualifiedByName = "configurationsToDto")
+    @Mapping(target = "totalPrice", source = ".", qualifiedByName = "totalPrice")
     public abstract ProductDto pojoToDto(Product product);
 
     public abstract Product entityToPojo(ProductEntity product);
@@ -61,5 +63,15 @@ abstract class ProductMapper {
                 .collect(Collectors.toList());
 
         target.setConfigurations(entities);
+    }
+
+    @Named(value = "totalPrice")
+    BigDecimal sumUpTotalPrice(Product product) {
+        if (product.getConfigurations() == null) return product.getBasePrice();
+        BigDecimal totalPrice = product.getConfigurations().stream()
+                .filter(pc -> Boolean.TRUE.equals(pc.getIsDefault()))
+                .map(pc -> pc.getConfiguration().getPrice())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return totalPrice.add(product.getBasePrice());
     }
 }
