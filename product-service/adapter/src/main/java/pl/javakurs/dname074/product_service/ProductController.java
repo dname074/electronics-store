@@ -25,7 +25,6 @@ class ProductController {
     private final ProductServiceProvider productService;
     private final ProductMapper productMapper;
     private final PageMapper pageMapper;
-    // add, delete, update, products page, available configurations
 
     @Operation(summary = "Get products page based on params")
     @ApiResponses(value = {
