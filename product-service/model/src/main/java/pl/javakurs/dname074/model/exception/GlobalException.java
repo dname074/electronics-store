@@ -1,14 +1,13 @@
 package pl.javakurs.dname074.model.exception;
 
 import lombok.Getter;
-import pl.javakurs.dname074.model.HttpStatus;
 
 @Getter
 public class GlobalException extends RuntimeException {
-    private final HttpStatus status;
+    private final Integer statusCode;
 
-    public GlobalException(String message, HttpStatus status) {
+    public GlobalException(String message, Integer statusCode) {
         super(message);
-        this.status = status;
+        this.statusCode = statusCode;
     }
 }

@@ -22,7 +22,10 @@ class ProductRepositoryAdapter implements ProductRepositoryProvider {
 
     @Override
     public PagePojo<Product> findAll(int page, int size, ProductType type) {
-        Specification<ProductEntity> filters = ProductSpecifications.hasType(type);
+        Specification<ProductEntity> filters = null;
+        if (type != null) {
+            filters = ProductSpecifications.hasType(type);
+        }
         return pageMapper.entityToPojo(
                 repository.findAll(filters, PageRequest.of(page, size)),
                 productMapper::entityToPojo

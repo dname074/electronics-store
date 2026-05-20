@@ -3,7 +3,7 @@ package pl.javakurs.dname074.domain;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.javakurs.dname074.model.Configuration;
-import pl.javakurs.dname074.model.InvalidProductTypeException;
+import pl.javakurs.dname074.model.exception.InvalidProductTypeException;
 import pl.javakurs.dname074.model.Product;
 import pl.javakurs.dname074.model.exception.ResourceAlreadyExistsException;
 import pl.javakurs.dname074.model.exception.ResourceNotFoundException;

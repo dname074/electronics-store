@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -51,7 +52,7 @@ class ConfigurationController {
     })
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
-    public ConfigurationDto addConfiguration(@RequestBody CreateConfigurationCommand configuration) {
+    public ConfigurationDto addConfiguration(@RequestBody @Valid CreateConfigurationCommand configuration) {
         log.info("Received POST /configurations request with body: {}", configuration);
         return configurationMapper.toDto(configurationService.addConfiguration(configurationMapper.dtoToPojo(configuration), configuration.productId()));
     }

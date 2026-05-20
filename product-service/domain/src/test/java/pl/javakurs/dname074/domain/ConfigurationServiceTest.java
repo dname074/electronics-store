@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.javakurs.dname074.model.ConfigType;
 import pl.javakurs.dname074.model.Configuration;
-import pl.javakurs.dname074.model.InvalidProductTypeException;
+import pl.javakurs.dname074.model.exception.InvalidProductTypeException;
 import pl.javakurs.dname074.model.Product;
 import pl.javakurs.dname074.model.ProductType;
 import pl.javakurs.dname074.model.exception.ResourceAlreadyExistsException;

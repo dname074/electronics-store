@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -45,8 +46,9 @@ class ProductController {
                     })
     })
     @GetMapping
-    public PageDto<ProductDto> getProductsPage(@RequestParam Integer page, @RequestParam Integer size,
-                                               @RequestParam ProductType type) {
+    public PageDto<ProductDto> getProductsPage(@RequestParam(required = false, defaultValue = "0") Integer page,
+                                               @RequestParam(required = false, defaultValue = "10") Integer size,
+                                               @RequestParam(required = false) ProductType type) {
         log.info("Received GET /products request with params: page = {}, size = {}, type = {}", page, size, type);
         return pageMapper.toDto(
                 productService.getProductsPage(page, size, type),
@@ -98,7 +100,7 @@ class ProductController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ProductDto addProduct(@RequestBody CreateProductCommand product) {
+    public ProductDto addProduct(@RequestBody @Valid CreateProductCommand product) {
         log.info("Received POST /products request with body: {}", product.toString());
         return productMapper.pojoToDto(productService.addProduct(productMapper.dtoToPojo(product)));
     }
@@ -151,7 +153,8 @@ class ProductController {
                     })
     })
     @PatchMapping("/{productId}/configurations/{configurationId}")
-    public ProductDto addConfigurationToProduct(@PathVariable Long productId, @PathVariable Long configurationId, @RequestParam Boolean isDefault) {
+    public ProductDto addConfigurationToProduct(@PathVariable Long productId, @PathVariable Long configurationId,
+                                                @RequestParam(required = false, defaultValue = "false") Boolean isDefault) {
         log.info("Received PATCH /products/{}}/configurations/{} request with param isDefault = {}",
                 productId, configurationId, isDefault);
         return productMapper.pojoToDto(productService.addConfigurationToProduct(productId, configurationId, isDefault));
