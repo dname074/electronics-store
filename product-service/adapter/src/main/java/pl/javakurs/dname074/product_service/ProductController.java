@@ -16,10 +16,12 @@ import pl.javakurs.dname074.dto.PageDto;
 import pl.javakurs.dname074.dto.ProductDto;
 import pl.javakurs.dname074.model.ProductType;
 
+import java.math.BigDecimal;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/products")
+@RequestMapping("/api/v1/products")
 class ProductController {
     private final ProductServiceFacade productService;
     private final ProductMapper productMapper;
@@ -46,10 +48,13 @@ class ProductController {
     @GetMapping
     public PageDto<ProductDto> getProductsPage(@RequestParam(required = false, defaultValue = "0") Integer page,
                                                @RequestParam(required = false, defaultValue = "10") Integer size,
-                                               @RequestParam(required = false) ProductType type) {
-        log.info("Received GET /products request with params: page = {}, size = {}, type = {}", page, size, type);
+                                               @RequestParam(required = false) ProductType type,
+                                               @RequestParam(required = false) BigDecimal minPrice,
+                                               @RequestParam(required = false) BigDecimal maxPrice) {
+        log.info("Received GET /products request with params: page = {}, size = {}, type = {}, minPrice = {}, maxPrice = {}",
+                page, size, type, minPrice, maxPrice);
         return pageMapper.toDto(
-                productService.getProductsPage(page, size, type),
+                productService.getProductsPage(page, size, type, minPrice, maxPrice),
                 productMapper::pojoToDto
         );
     }

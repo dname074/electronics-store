@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
 import pl.javakurs.dname074.model.ProductType;
 
 import java.math.BigDecimal;
@@ -29,6 +30,15 @@ public class ProductEntity {
     private String label;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductConfigurationEntity> configurations;
+    @Formula("""
+    base_price + COALESCE((
+        SELECT SUM(c.price)
+        FROM product_configuration pc
+        JOIN configurations c ON c.id = pc.configuration_id
+        WHERE pc.product_id = id AND pc.is_default = true
+    ), 0)
+    """)
+    private BigDecimal totalPrice;
 
     @Override
     public boolean equals(Object o) {

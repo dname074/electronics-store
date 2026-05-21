@@ -50,9 +50,9 @@ public class ProductServiceTest {
                 BigDecimal.valueOf(5499.99), ProductType.SMARTPHONE, "Iphone 23", List.of()));
         PagePojo<Product> productsPage = new PagePojo<>(productsList, 1, 1, page, size);
 
-        when(productRepository.findAll(page, size, type)).thenReturn(productsPage);
+        when(productRepository.findAll(page, size, type, null, null)).thenReturn(productsPage);
 
-        PagePojo<Product> result = service.getProductsPage(page, size, type);
+        PagePojo<Product> result = service.getProductsPage(page, size, type, null, null);
 
         Assertions.assertAll(
                 () -> assertEquals(productsList, result.getContent()),
@@ -61,7 +61,7 @@ public class ProductServiceTest {
                 () -> assertEquals(0, result.getPageNumber()),
                 () -> assertEquals(1, result.getPageSize())
         );
-        verify(productRepository, times(1)).findAll(0, 1, ProductType.SMARTPHONE);
+        verify(productRepository, times(1)).findAll(0, 1, ProductType.SMARTPHONE, null, null);
         verifyNoMoreInteractions(productRepository);
         verifyNoInteractions(configurationRepository);
     }

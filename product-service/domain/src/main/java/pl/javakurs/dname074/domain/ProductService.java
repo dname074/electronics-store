@@ -12,6 +12,7 @@ import pl.javakurs.dname074.model.exception.AlreadyContainsDefaultConfigExceptio
 import pl.javakurs.dname074.model.exception.ResourceAlreadyExistsException;
 import pl.javakurs.dname074.model.exception.ResourceNotFoundException;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Slf4j
@@ -21,9 +22,9 @@ public class ProductService implements ProductServiceProvider {
     private final ConfigurationRepositoryProvider configurationRepository;
 
     @Override
-    public PagePojo<Product> getProductsPage(int page, int size, ProductType type) {
+    public PagePojo<Product> getProductsPage(int page, int size, ProductType type, BigDecimal minPrice, BigDecimal maxPrice) {
         log.info("Process of getting products page has started");
-        PagePojo<Product> productsPage = productRepository.findAll(page, size, type);
+        PagePojo<Product> productsPage = productRepository.findAll(page, size, type, minPrice, maxPrice);
         log.info("Process of getting products page has ended");
         return productsPage;
     }

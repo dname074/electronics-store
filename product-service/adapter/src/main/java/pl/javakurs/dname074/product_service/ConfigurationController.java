@@ -21,7 +21,7 @@ import pl.javakurs.dname074.dto.ExceptionResponseDto;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/configurations")
+@RequestMapping("/api/v1/configurations")
 class ConfigurationController {
     private final ConfigurationServiceFacade configurationService;
     private final ConfigurationMapper configurationMapper;
