@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Formula;
 import pl.javakurs.dname074.model.ProductType;
 
@@ -28,6 +29,7 @@ public class ProductEntity {
     @Enumerated(value = EnumType.STRING)
     private ProductType type;
     private String label;
+    @BatchSize(size = 25)
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductConfigurationEntity> configurations;
     @Formula("""

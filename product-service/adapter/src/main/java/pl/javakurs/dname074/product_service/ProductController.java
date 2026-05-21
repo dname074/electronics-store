@@ -12,11 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.javakurs.dname074.dto.CreateProductCommand;
 import pl.javakurs.dname074.dto.ExceptionResponseDto;
+import pl.javakurs.dname074.dto.FilteredProductsRequest;
 import pl.javakurs.dname074.dto.PageDto;
 import pl.javakurs.dname074.dto.ProductDto;
-import pl.javakurs.dname074.model.ProductType;
-
-import java.math.BigDecimal;
+import pl.javakurs.dname074.dto.ValidExceptionResponseDto;
 
 @Slf4j
 @RestController
@@ -42,19 +41,18 @@ class ProductController {
             @ApiResponse(responseCode = "400", description = "Bad request",
                     content = {
                             @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionResponseDto.class))
+                                    schema = @Schema(oneOf = {
+                                            ExceptionResponseDto.class,
+                                            ValidExceptionResponseDto.class
+                                    }))
                     })
     })
     @GetMapping
-    public PageDto<ProductDto> getProductsPage(@RequestParam(required = false, defaultValue = "0") Integer page,
-                                               @RequestParam(required = false, defaultValue = "10") Integer size,
-                                               @RequestParam(required = false) ProductType type,
-                                               @RequestParam(required = false) BigDecimal minPrice,
-                                               @RequestParam(required = false) BigDecimal maxPrice) {
+    public PageDto<ProductDto> getProductsPage(@Valid FilteredProductsRequest request) {
         log.info("Received GET /products request with params: page = {}, size = {}, type = {}, minPrice = {}, maxPrice = {}",
-                page, size, type, minPrice, maxPrice);
+                request.getPage(), request.getSize(), request.getType(), request.getMinPrice(), request.getMaxPrice());
         return pageMapper.toDto(
-                productService.getProductsPage(page, size, type, minPrice, maxPrice),
+                productService.getProductsPage(request.getPage(), request.getSize(), request.getType(), request.getMinPrice(), request.getMaxPrice()),
                 productMapper::pojoToDto
         );
     }
@@ -74,7 +72,10 @@ class ProductController {
             @ApiResponse(responseCode = "400", description = "Bad request",
                     content = {
                             @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionResponseDto.class))
+                                    schema = @Schema(oneOf = {
+                                            ExceptionResponseDto.class,
+                                            ValidExceptionResponseDto.class
+                                    }))
                     })
     })
     @GetMapping("/{id}")
@@ -98,7 +99,10 @@ class ProductController {
             @ApiResponse(responseCode = "400", description = "Bad request",
                     content = {
                             @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionResponseDto.class))
+                                    schema = @Schema(oneOf = {
+                                            ExceptionResponseDto.class,
+                                            ValidExceptionResponseDto.class
+                                    }))
                     })
     })
     @ResponseStatus(HttpStatus.CREATED)
@@ -123,11 +127,14 @@ class ProductController {
             @ApiResponse(responseCode = "400", description = "Bad request",
                     content = {
                             @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionResponseDto.class))
+                                    schema = @Schema(oneOf = {
+                                            ExceptionResponseDto.class,
+                                            ValidExceptionResponseDto.class
+                                    }))
                     })
     })
     @PutMapping("/{id}")
-    public ProductDto modifyProduct(@PathVariable Long id, @RequestBody CreateProductCommand product) {
+    public ProductDto modifyProduct(@PathVariable Long id, @RequestBody @Valid CreateProductCommand product) {
         log.info("Received PUT /products/{} request with body: {}", id, product.toString());
         return productMapper.pojoToDto(productService.modifyProduct(id, productMapper.dtoToPojo(product)));
     }
@@ -152,7 +159,10 @@ class ProductController {
             @ApiResponse(responseCode = "400", description = "Bad request",
                     content = {
                             @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionResponseDto.class))
+                                    schema = @Schema(oneOf = {
+                                            ExceptionResponseDto.class,
+                                            ValidExceptionResponseDto.class
+                                    }))
                     })
     })
     @PatchMapping("/{productId}/configurations/{configurationId}")
@@ -178,7 +188,10 @@ class ProductController {
             @ApiResponse(responseCode = "400", description = "Bad request",
                     content = {
                             @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionResponseDto.class))
+                                    schema = @Schema(oneOf = {
+                                            ExceptionResponseDto.class,
+                                            ValidExceptionResponseDto.class
+                                    }))
                     })
     })
     @DeleteMapping("/{id}")

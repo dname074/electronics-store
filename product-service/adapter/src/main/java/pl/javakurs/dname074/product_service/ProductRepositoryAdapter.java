@@ -2,7 +2,6 @@ package pl.javakurs.dname074.product_service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,7 +14,6 @@ import pl.javakurs.dname074.product_service.entity.ProductConfigurationId;
 import pl.javakurs.dname074.product_service.entity.ProductEntity;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -29,11 +27,7 @@ class ProductRepositoryAdapter implements ProductRepositoryProvider {
     public PagePojo<Product> findAll(int page, int size, ProductType type, BigDecimal minPrice, BigDecimal maxPrice) {
         Specification<ProductEntity> filters = setFilters(type, minPrice, maxPrice);
         Pageable pageable = PageRequest.of(page, size);
-
-        Page<Long> idPage = repository.findIds(filters, pageable);
-        List<ProductEntity> products = repository.findByIds(idPage.getContent());
-        Page<ProductEntity> productPage = new PageImpl<>(products, pageable, idPage.getTotalElements());
-
+        Page<ProductEntity> productPage = repository.findAll(filters, pageable);
         return pageMapper.entityToPojo(productPage, productMapper::entityToPojo);
     }
 

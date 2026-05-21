@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.javakurs.dname074.dto.ConfigurationDto;
 import pl.javakurs.dname074.dto.CreateConfigurationCommand;
 import pl.javakurs.dname074.dto.ExceptionResponseDto;
+import pl.javakurs.dname074.dto.ValidExceptionResponseDto;
 
 @Slf4j
 @RestController
@@ -29,25 +30,28 @@ class ConfigurationController {
     @Operation(summary = "Add configuration option to db")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Configuration created",
-            content = {
-                    @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ConfigurationDto.class))
-            }),
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ConfigurationDto.class))
+                    }),
             @ApiResponse(responseCode = "409", description = "Configuration with provided name and type already exists or configuration type doesn't match provided product's type",
-            content = {
-                    @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ExceptionResponseDto.class))
-            }),
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ExceptionResponseDto.class))
+                    }),
             @ApiResponse(responseCode = "404", description = "Configuration can't be a product, because product with provided id doesn't exist",
-            content = {
-                    @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ExceptionResponseDto.class))
-            }),
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ExceptionResponseDto.class))
+                    }),
             @ApiResponse(responseCode = "400", description = "Bad request",
-            content = {
-                    @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ExceptionResponseDto.class))
-            })
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(oneOf = {
+                                            ExceptionResponseDto.class,
+                                            ValidExceptionResponseDto.class
+                                    }))
+                    })
     })
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
