@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import pl.javakurs.dname074.domain.ConfigurationServiceProvider;
 import pl.javakurs.dname074.dto.ConfigurationDto;
 import pl.javakurs.dname074.dto.CreateConfigurationCommand;
 import pl.javakurs.dname074.dto.ExceptionResponseDto;
@@ -24,7 +23,7 @@ import pl.javakurs.dname074.dto.ExceptionResponseDto;
 @RequiredArgsConstructor
 @RequestMapping("/configurations")
 class ConfigurationController {
-    private final ConfigurationServiceProvider configurationService;
+    private final ConfigurationServiceFacade configurationService;
     private final ConfigurationMapper configurationMapper;
 
     @Operation(summary = "Add configuration option to db")

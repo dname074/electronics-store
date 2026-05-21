@@ -1,0 +1,122 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: damian
+      comment: "Products table"
+      changes:
+        - createTable:
+            tableName: products
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_products_id
+              - column:
+                  name: sku
+                  type: varchar(12)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: uq_products_sku
+              - column:
+                  name: name
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: base_price
+                  type: numeric(19, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(32)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: label
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 2
+      author: damian
+      comment: "Configurations table"
+      changes:
+        - createTable:
+            tableName: configurations
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_configurations_id
+              - column:
+                  name: type
+                  type: varchar(32)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: numeric(19,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: label
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    unique: true
+                    uniqueConstraintName: uq_configurations_product_id
+                    foreignKeyName: fk_configurations_product_id
+                    referencedTableName: products
+                    referencedColumnNames: id
+  - changeSet:
+      id: 3
+      author: damian
+      comment: "product_configuration table"
+      changes:
+        - createTable:
+            tableName: product_configuration
+            columns:
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_product_configuration_product_id
+                    referencedTableName: products
+                    referencedColumnNames: id
+              - column:
+                  name: configuration_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_product_configuration_configuration_id
+                    referencedTableName: configurations
+                    referencedColumnNames: id
+              - column:
+                  name: is_default
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: product_configuration
+            columnNames: product_id, configuration_id
+            constraintName: pk_product_configuration

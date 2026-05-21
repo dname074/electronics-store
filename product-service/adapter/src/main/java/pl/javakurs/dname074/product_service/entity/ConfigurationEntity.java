@@ -16,7 +16,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(
-        name = "Configurations",
+        name = "configurations",
         uniqueConstraints = @UniqueConstraint(columnNames = {"name", "type"})
 )
 public class ConfigurationEntity {

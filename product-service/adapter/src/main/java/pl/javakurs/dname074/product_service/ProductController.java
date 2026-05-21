@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pl.javakurs.dname074.domain.ProductServiceProvider;
 import pl.javakurs.dname074.dto.CreateProductCommand;
 import pl.javakurs.dname074.dto.ExceptionResponseDto;
 import pl.javakurs.dname074.dto.PageDto;
@@ -22,7 +21,7 @@ import pl.javakurs.dname074.model.ProductType;
 @RequiredArgsConstructor
 @RequestMapping("/products")
 class ProductController {
-    private final ProductServiceProvider productService;
+    private final ProductServiceFacade productService;
     private final ProductMapper productMapper;
     private final PageMapper pageMapper;
 
