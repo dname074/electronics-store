@@ -5,23 +5,21 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>pl.javakurs.dname074</groupId>
-        <artifactId>electronics-store</artifactId>
+        <artifactId>cart-service</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>product-service</artifactId>
-    <packaging>pom</packaging>
 
-    <modules>
-        <module>product-adapter</module>
-        <module>product-domain</module>
-        <module>product-model</module>
-        <module>product-public</module>
-    </modules>
+    <artifactId>cart-public</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>pl.javakurs.dname074</groupId>
+            <artifactId>cart-model</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
     </dependencies>
 </project>
