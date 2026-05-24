@@ -7,17 +7,14 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartProduct {
-    private Long id;
-    private String sku;
-    private String name;
+public class Cart {
+    private UUID id;
+    private List<CartProduct> products;
     private BigDecimal totalPrice;
-    private ProductType type;
-    private String label;
-    private List<CartConfiguration> chosenConfigurations;
 }
