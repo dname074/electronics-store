@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.javakurs.dname074.cart.domain.CartServiceProvider;
 import pl.javakurs.dname074.cart.dto.AddToCartCommand;
 import pl.javakurs.dname074.cart.model.Cart;
-import pl.javakurs.dname074.cart.model.CartProduct;
 
 @RequiredArgsConstructor
 @RestController
@@ -16,7 +15,7 @@ public class CartController {
     private final CartServiceProvider service;
 //    private final CartMapper mapper;
 
-    @PostMapping()
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cart addToCart(@RequestBody @Valid AddToCartCommand product) {
         return service.addToCart(product.cartId(), product.productId(), product.configurations());

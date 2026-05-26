@@ -9,6 +9,8 @@ public record ConfigurationDto(
         String name,
         ConfigType type,
         BigDecimal price,
-        String label
+        String label,
+        Boolean isDefault
+        // todo: ogarnac mapping, bo jebany shit zawsze ma nulla
 ) {
 }

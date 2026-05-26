@@ -3,6 +3,7 @@ package pl.javakurs.dname074.cart.domain;
 import lombok.RequiredArgsConstructor;
 import pl.javakurs.dname074.cart.model.Cart;
 import pl.javakurs.dname074.cart.model.CartProduct;
+import pl.javakurs.dname074.cart.model.Configuration;
 
 
 import java.math.BigDecimal;
@@ -14,6 +15,7 @@ import java.util.UUID;
 public class CartService implements CartServiceProvider {
     private final CartRepositoryProvider repository;
     private final ProductClientProvider client;
+    private final ConfigurationValidator configValidator;
 
     @Override
     public Cart addToCart(String cartId, Long productId, List<Long> configurationIds) {
@@ -21,27 +23,9 @@ public class CartService implements CartServiceProvider {
                 ? repository.findById(cartId).orElse(createNewCart())
                 : createNewCart();
         CartProduct product = client.getProduct(productId);
+        List<Configuration> configs = configValidator.getCorrectConfiguration(product, configurationIds);
 
-//        product.getConfigurations().stream()
-//                        .filter(configuration -> configurationIds.contains(configuration.getId()))
-//
-//        List<Configuration> configurations = new ArrayList<>();
-//        if (configurationIds == null || configurationIds.isEmpty()) {
-//            configurations = product.getConfigurations().stream()
-//                    .filter(configuration -> configuration.getIsDefault()==true)
-//                    .toList();
-//        } else {
-//            List<ConfigType> types = new ArrayList<>();
-//            for (Configuration configuration : product.getConfigurations()) {
-//                if (configurationIds.contains(configuration.getId())) {
-//                    if (!types.contains(configuration.getType())) {
-//                        configurations.add(configuration);
-//                        types.add(configuration.getType());
-//                    }
-//                }
-//            }
-//        }
-
+        product.setConfigurations(configs);
         cart.addProduct(product);
         repository.save(cart);
         return cart;

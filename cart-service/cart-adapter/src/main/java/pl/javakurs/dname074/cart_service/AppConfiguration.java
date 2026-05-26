@@ -11,6 +11,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import pl.javakurs.dname074.cart.domain.CartRepositoryProvider;
 import pl.javakurs.dname074.cart.domain.CartService;
 import pl.javakurs.dname074.cart.domain.CartServiceProvider;
+import pl.javakurs.dname074.cart.domain.ConfigurationValidator;
 import pl.javakurs.dname074.cart.domain.ProductClientProvider;
 import pl.javakurs.dname074.cart.model.Cart;
 
@@ -27,8 +28,14 @@ public class AppConfiguration {
     }
 
     @Bean
-    public CartServiceProvider cartService(CartRepositoryProvider repository, ProductClientProvider productClient) {
-        return new CartService(repository, productClient);
+    public CartServiceProvider cartService(CartRepositoryProvider repository, ProductClientProvider productClient,
+                                           ConfigurationValidator validator) {
+        return new CartService(repository, productClient, validator);
+    }
+
+    @Bean
+    public ConfigurationValidator configurationValidator() {
+        return new ConfigurationValidator();
     }
 
     @Bean
