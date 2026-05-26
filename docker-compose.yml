@@ -28,12 +28,31 @@ services:
     volumes:
       - pgadmin_working_dir:/var/lib/pgadmin
       - pgadmin_config_dir:/pgadmin4
+  redis:
+    image: redis:7.4-alpine
+#    healthcheck:
+#      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+#      interval: 1s
+#      timeout: 3s
+#      retries: 5
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASS}
+    ports:
+      - 6379:6379
+    networks:
+      - redis_network
+
+#  cart-service:
+#    depends_on:
+#      redis:
+#        condition: service_healthy
 
 networks:
   electronics-store_network:
     external: true
     driver: bridge
   postgres_network:
+    driver: bridge
+  redis_network:
     driver: bridge
 
 volumes:
