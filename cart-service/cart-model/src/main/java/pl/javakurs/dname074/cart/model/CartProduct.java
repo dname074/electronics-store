@@ -19,5 +19,5 @@ public class CartProduct {
     private BigDecimal totalPrice;
     private ProductType type;
     private String label;
-    private List<CartConfiguration> chosenConfigurations;
+    private List<Configuration> configurations;
 }

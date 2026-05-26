@@ -1,6 +1,6 @@
-package pl.javakurs.dname074.dto;
+package pl.javakurs.dname074.cart.dto;
 
-import pl.javakurs.dname074.model.ConfigType;
+import pl.javakurs.dname074.cart.model.ConfigType;
 
 import java.math.BigDecimal;
 
@@ -9,7 +9,6 @@ public record ConfigurationDto(
         String name,
         ConfigType type,
         BigDecimal price,
-        String label,
-        Boolean isDefault
+        String label
 ) {
 }

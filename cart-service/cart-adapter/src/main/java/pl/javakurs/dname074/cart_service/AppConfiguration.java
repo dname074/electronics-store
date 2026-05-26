@@ -1,30 +1,29 @@
 package pl.javakurs.dname074.cart_service;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import pl.javakurs.dname074.cart.domain.CartRepositoryProvider;
 import pl.javakurs.dname074.cart.domain.CartService;
 import pl.javakurs.dname074.cart.domain.CartServiceProvider;
+import pl.javakurs.dname074.cart.domain.ProductClientProvider;
 import pl.javakurs.dname074.cart.model.Cart;
-
-import java.time.Duration;
 
 @Configuration
 public class AppConfiguration {
     @Bean
-    public CartRepositoryProvider cartRepository(CartRepository cartRepository) {
-        return new CartRepositoryAdapter(cartRepository);
+    public CartRepositoryProvider cartRepositoryProvider(CartRepository repository) {
+        return new CartRepositoryAdapter(repository);
     }
 
     @Bean
-    public ProductClientProvider productClient() {
-        return new ProductClient();
+    public ProductClientProvider productClient(ProductClient client, ProductMapper mapper) {
+        return new ProductClientAdapter(client, mapper);
     }
 
     @Bean
@@ -41,5 +40,10 @@ public class AppConfiguration {
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
 
         return template;
+    }
+
+    @Bean
+    public Jackson2ObjectMapperBuilderCustomizer jacksonNamingCustomizer() {
+        return builder -> builder.propertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
     }
 }

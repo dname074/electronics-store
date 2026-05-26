@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pl.javakurs.dname074.dto.ConfigurationDto;
 import pl.javakurs.dname074.dto.CreateProductCommand;
 import pl.javakurs.dname074.dto.ProductDto;
+import pl.javakurs.dname074.model.Configuration;
 import pl.javakurs.dname074.model.Product;
 import pl.javakurs.dname074.model.ProductConfiguration;
 import pl.javakurs.dname074.product_service.entity.ProductConfigurationEntity;
@@ -43,7 +44,12 @@ abstract class ProductMapper {
     List<ConfigurationDto> configurationsToDto(List<ProductConfiguration> configurations) {
         if (configurations == null) return null;
         return configurations.stream()
-                .map(pc -> configurationMapper.toDto(pc.getConfiguration()))
+                .map(pc -> {
+                    boolean isDefault = pc.getIsDefault();
+                    Configuration configuration = pc.getConfiguration();
+                    return new ConfigurationDto(configuration.getId(), configuration.getName(),
+                            configuration.getType(), configuration.getPrice(), configuration.getLabel(), isDefault);
+                })
                 .collect(Collectors.toList());
     }
 

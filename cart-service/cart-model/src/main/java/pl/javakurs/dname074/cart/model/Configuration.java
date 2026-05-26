@@ -11,10 +11,11 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Getter
 @Setter
-public class CartConfiguration {
+public class Configuration {
     private Long id;
     private String name;
     private ConfigType type;
     private BigDecimal price;
     private String label;
+    private Boolean isDefault;
 }
