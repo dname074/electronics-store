@@ -33,10 +33,6 @@
 	<modules>
 		<module>product-service</module>
         <module>cart-service</module>
-        <module>cart-service/cart-adapter</module>
-		<module>cart-service/cart-domain</module>
-		<module>cart-service/cart-model</module>
-		<module>cart-service/cart-public</module>
 	</modules>
 
 	<dependencyManagement>

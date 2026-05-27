@@ -15,6 +15,11 @@ public class CartController {
     private final CartServiceProvider service;
 //    private final CartMapper mapper;
 
+    @GetMapping("/{id}")
+    public Cart getCart(@PathVariable String id) {
+        return service.getCart(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cart addToCart(@RequestBody @Valid AddToCartCommand product) {

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import pl.javakurs.dname074.cart.model.Cart;
 import pl.javakurs.dname074.cart.model.CartProduct;
 import pl.javakurs.dname074.cart.model.Configuration;
+import pl.javakurs.dname074.cart.model.exception.ResourceNotFoundException;
 
 
 import java.math.BigDecimal;
@@ -18,6 +19,13 @@ public class CartService implements CartServiceProvider {
     private final ConfigurationValidator configValidator;
 
     @Override
+    public Cart getCart(String id) {
+        Cart cart = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart with provided id not found"));
+        return cart;
+    }
+
+    @Override
     public Cart addToCart(String cartId, Long productId, List<Long> configurationIds) {
         Cart cart = (cartId != null)
                 ? repository.findById(cartId).orElse(createNewCart())
@@ -27,6 +35,7 @@ public class CartService implements CartServiceProvider {
 
         product.setConfigurations(configs);
         cart.addProduct(product);
+        cart.calculateTotalPrice();
         repository.save(cart);
         return cart;
     }

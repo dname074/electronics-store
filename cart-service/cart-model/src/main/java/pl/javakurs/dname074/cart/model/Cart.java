@@ -22,4 +22,13 @@ public class Cart {
             products.add(product);
         }
     }
+
+    public void calculateTotalPrice() {
+        if (this.products == null || this.totalPrice == null) {
+            return;
+        }
+        this.totalPrice = products.stream()
+                .map(CartProduct::getTotalPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }
