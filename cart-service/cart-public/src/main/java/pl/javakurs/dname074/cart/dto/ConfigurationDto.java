@@ -11,6 +11,5 @@ public record ConfigurationDto(
         BigDecimal price,
         String label,
         Boolean isDefault
-        // todo: ogarnac mapping, bo jebany shit zawsze ma nulla
 ) {
 }

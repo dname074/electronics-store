@@ -9,5 +9,7 @@ import pl.javakurs.dname074.cart.model.Configuration;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
     CartProduct toPojo(CartProductDto product);
+    CartProductDto toDto(CartProductDto productDto);
     Configuration configurationToPojo(ConfigurationDto configurationDto);
+    ConfigurationDto configurationToDto(Configuration configuration);
 }
