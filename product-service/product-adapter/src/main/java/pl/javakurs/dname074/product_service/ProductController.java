@@ -33,11 +33,6 @@ class ProductController {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = PageDto.class))
                     }),
-            @ApiResponse(responseCode = "204", description = "Products not found",
-                    content = {
-                            @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = PageDto.class))
-                    }),
             @ApiResponse(responseCode = "400", description = "Bad request",
                     content = {
                             @Content(mediaType = "application/json",

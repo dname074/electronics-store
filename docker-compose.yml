@@ -40,6 +40,16 @@ services:
       - 6379:6379
     networks:
       - redis_network
+  redis-insight:
+    image: redis/redisinsight:3.4
+    ports:
+      - 5540:5540
+    networks:
+      - redis_network
+    volumes:
+      - redis-insight-data:/data
+    depends_on:
+      - redis
 
 #  cart-service:
 #    depends_on:
@@ -61,4 +71,6 @@ volumes:
   pgadmin_working_dir:
     driver: local
   pgadmin_config_dir:
+    driver: local
+  redis-insight-data:
     driver: local

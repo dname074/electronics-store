@@ -19,6 +19,7 @@ import java.util.List;
 public class GlobalExceptionHandler {
     @ExceptionHandler(GlobalException.class)
     public ResponseEntity<ExceptionResponseDto> handleGlobalException(GlobalException exception) {
+        log.error("Exception has occured, message: {}", exception.getMessage());
         HttpStatus status = HttpStatus.valueOf(exception.getStatusCode());
         return ResponseEntity.status(status).body(new ExceptionResponseDto(exception.getStatusCode(), exception.getMessage()));
     }

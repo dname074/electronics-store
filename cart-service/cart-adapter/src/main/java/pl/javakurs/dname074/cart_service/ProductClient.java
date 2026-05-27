@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import pl.javakurs.dname074.cart.dto.CartProductDto;
 
 @FeignClient(
-        name = "productClient"
-//        configuration = ProductClientConfiguration.class
+        name = "productClient",
+        configuration = ProductClientConfiguration.class
 )
 public interface ProductClient {
     @GetMapping("/products/{id}")
