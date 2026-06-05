@@ -6,8 +6,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.javakurs.dname074.cart.domain.CartServiceProvider;
 import pl.javakurs.dname074.cart.dto.AddToCartCommand;
@@ -19,6 +21,7 @@ import pl.javakurs.dname074.cart.dto.ValidExceptionResponseDto;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/carts")
+@Validated
 public class CartController {
     private final CartServiceProvider service;
     private final CartMapper mapper;
@@ -45,7 +48,7 @@ public class CartController {
                     }),
     })
     @GetMapping("/{id}")
-    public CartDto getCart(@PathVariable String id) {
+    public CartDto getCart(@PathVariable @Size(min = 36, max = 36) String id) {
         log.info("Received GET /api/v1/carts/{} request", id);
         return mapper.toDto(service.getCart(id));
     }
