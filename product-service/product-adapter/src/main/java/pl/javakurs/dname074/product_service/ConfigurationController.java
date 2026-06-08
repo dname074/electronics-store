@@ -22,7 +22,7 @@ import pl.javakurs.dname074.dto.ValidExceptionResponseDto;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/configurations")
+@RequestMapping("/configurations")
 class ConfigurationController {
     private final ConfigurationServiceFacade configurationService;
     private final ConfigurationMapper configurationMapper;

@@ -6,7 +6,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 import pl.javakurs.dname074.dto.ConfigurationDto;
 import pl.javakurs.dname074.dto.CreateProductCommand;
 import pl.javakurs.dname074.dto.ProductDto;
@@ -22,9 +21,6 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = ConfigurationMapper.class)
 abstract class ProductMapper {
-    @Autowired
-    protected ConfigurationMapper configurationMapper;
-
     @Mapping(target = "configurations", qualifiedByName = "configurationsToDto")
     @Mapping(target = "totalPrice", source = ".", qualifiedByName = "totalPrice")
     public abstract ProductDto pojoToDto(Product product);

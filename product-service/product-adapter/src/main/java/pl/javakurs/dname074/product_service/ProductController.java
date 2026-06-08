@@ -20,7 +20,7 @@ import pl.javakurs.dname074.dto.ValidExceptionResponseDto;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/products")
+@RequestMapping("/products")
 class ProductController {
     private final ProductServiceFacade productService;
     private final ProductMapper productMapper;

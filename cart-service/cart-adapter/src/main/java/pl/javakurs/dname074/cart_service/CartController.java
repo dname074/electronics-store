@@ -20,7 +20,7 @@ import pl.javakurs.dname074.cart.dto.ValidExceptionResponseDto;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/carts")
+@RequestMapping("/carts")
 @Validated
 public class CartController {
     private final CartServiceProvider service;

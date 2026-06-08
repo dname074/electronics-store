@@ -6,18 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Order {
-    private Long id;
-    private OrderStatus status;
-    private BigDecimal totalPrice;
+public class OrderCart {
+    private String id;
     private List<OrderProduct> products;
-    private Instant createdAt;
-    private Instant updatedAt;
+    private BigDecimal totalPrice;
 }

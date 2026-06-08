@@ -51,7 +51,7 @@ public class CartControllerTest {
 
         when(cartService.getCart(cartId)).thenReturn(cart);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/carts/{cartId}", cartId))
+        mockMvc.perform(MockMvcRequestBuilders.get("/carts/{cartId}", cartId))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(cartId))
