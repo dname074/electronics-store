@@ -1,4 +1,4 @@
-package pl.javakurs.dname074.cart_service;
+package pl.javakurs.dname074.order_service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
@@ -7,8 +7,8 @@ import feign.codec.ErrorDecoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import pl.javakurs.dname074.cart.dto.ExceptionResponseDto;
-import pl.javakurs.dname074.cart.model.exception.ExternalClientException;
+import pl.javakurs.dname074.order.model.exception.ExternalClientException;
+import pl.javakurs.dname074.order.dto.ExceptionResponseDto;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,7 +44,7 @@ public class CustomErrorDecoder implements ErrorDecoder {
                     null,
                     100L,
                     response.request()
-                    );
+            );
             default -> new ExternalClientException(message, errorCode);
         };
     }

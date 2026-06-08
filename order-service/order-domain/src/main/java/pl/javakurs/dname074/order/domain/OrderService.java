@@ -1,6 +1,7 @@
 package pl.javakurs.dname074.order.domain;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import pl.javakurs.dname074.order.model.Order;
 import pl.javakurs.dname074.order.model.OrderCart;
 import pl.javakurs.dname074.order.model.OrderStatus;
@@ -9,6 +10,7 @@ import pl.javakurs.dname074.order.model.PagePojo;
 import java.time.Instant;
 
 @RequiredArgsConstructor
+@Slf4j
 public class OrderService implements OrderServiceProvider {
     private final CartClientProvider cartClient;
     private final OrderRepositoryProvider orderRepository;
