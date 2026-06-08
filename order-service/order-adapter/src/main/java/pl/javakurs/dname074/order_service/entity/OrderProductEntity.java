@@ -1,5 +1,6 @@
 package pl.javakurs.dname074.order_service.entity;
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,8 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
+import org.hibernate.annotations.Type;
 import pl.javakurs.dname074.order.model.Configuration;
 import pl.javakurs.dname074.order.model.ProductType;
 
@@ -37,9 +37,7 @@ public class OrderProductEntity {
     @Enumerated(EnumType.STRING)
     private ProductType type;
     private String label;
-    @JdbcTypeCode(SqlTypes.JSON)
+    @Type(JsonType.class)
     @Column(columnDefinition = "jsonb", name = "configuration_snapshot")
     private List<Configuration> configurationSnapshot;
-
-    // ogarnac blad z zapisem jsonb do bazy danych
 }

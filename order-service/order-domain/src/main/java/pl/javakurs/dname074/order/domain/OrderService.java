@@ -16,6 +16,7 @@ public class OrderService implements OrderServiceProvider {
     @Override
     public Order createOrder(String cartId) {
         OrderCart cart = cartClient.getCart(cartId);
+        System.out.println(cart.getProducts().getFirst().getConfigurationSnapshot());
         Order order = new Order(null, OrderStatus.CREATED, cart.getTotalPrice(),
                 cart.getProducts(), Instant.now(), Instant.now());
         return orderRepository.save(order);

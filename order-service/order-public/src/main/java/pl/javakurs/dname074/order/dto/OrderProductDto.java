@@ -1,5 +1,6 @@
 package pl.javakurs.dname074.order.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import pl.javakurs.dname074.order.model.ProductType;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ public record OrderProductDto(
         BigDecimal totalPrice,
         ProductType type,
         String label,
+        @JsonProperty("configurations")
         List<ConfigurationDto> configurationSnapshot
 ) {
 }
