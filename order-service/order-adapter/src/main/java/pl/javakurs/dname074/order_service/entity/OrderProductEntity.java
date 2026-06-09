@@ -19,6 +19,7 @@ import pl.javakurs.dname074.order.model.ProductType;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,4 +41,30 @@ public class OrderProductEntity {
     @Type(JsonType.class)
     @Column(columnDefinition = "jsonb", name = "configuration_snapshot")
     private List<Configuration> configurationSnapshot;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderProductEntity that = (OrderProductEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "OrderProductEntity{" +
+                "id=" + id +
+                ", sku='" + sku + '\'' +
+                ", name='" + name + '\'' +
+                ", totalPrice=" + totalPrice +
+                ", type=" + type +
+                ", label='" + label + '\'' +
+                ", configurationSnapshot=" + configurationSnapshot +
+                '}';
+    }
 }

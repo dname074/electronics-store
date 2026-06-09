@@ -20,6 +20,7 @@ import pl.javakurs.dname074.order.model.OrderStatus;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -46,6 +47,31 @@ public class OrderEntity {
     private Instant createdAt;
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderEntity that = (OrderEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "OrderEntity{" +
+                "id=" + id +
+                ", status=" + status +
+                ", totalPrice=" + totalPrice +
+                ", products=" + products +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }
 
 
