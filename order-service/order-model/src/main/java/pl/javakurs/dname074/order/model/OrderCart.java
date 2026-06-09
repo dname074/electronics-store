@@ -16,4 +16,13 @@ public class OrderCart {
     private String id;
     private List<OrderProduct> products;
     private BigDecimal totalPrice;
+
+    @Override
+    public String toString() {
+        return "OrderCart{" +
+                "id='" + id + '\'' +
+                ", products=" + products +
+                ", totalPrice=" + totalPrice +
+                '}';
+    }
 }

@@ -23,6 +23,8 @@ public class OrderService implements OrderServiceProvider {
         Order order = new Order(null, OrderStatus.CREATED, cart.getTotalPrice(),
                 cart.getProducts(), Instant.now(), Instant.now());
         order = orderRepository.save(order);
+        OrderCart removedCart = cartClient.removeCart(cartId);
+        log.info("Cart has been removed: {}", removedCart);
         log.info("Process of creating order has ended");
         return order;
     }

@@ -15,4 +15,9 @@ public class CartClientAdapter implements CartClientProvider {
     public OrderCart getCart(String cartId) {
         return cartMapper.toPojo(client.getCart(cartId));
     }
+
+    @Override
+    public OrderCart removeCart(String cartId) {
+        return cartMapper.toPojo(client.removeCart(cartId));
+    }
 }

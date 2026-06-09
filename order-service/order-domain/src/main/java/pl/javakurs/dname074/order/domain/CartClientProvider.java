@@ -4,4 +4,5 @@ import pl.javakurs.dname074.order.model.OrderCart;
 
 public interface CartClientProvider {
     OrderCart getCart(String cartId);
+    OrderCart removeCart(String cartId);
 }

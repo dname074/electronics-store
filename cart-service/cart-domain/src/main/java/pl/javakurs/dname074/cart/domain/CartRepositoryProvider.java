@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface CartRepositoryProvider {
     void save(Cart cart);
     Optional<Cart> findById(String id);
+    void delete(String cartId);
 }

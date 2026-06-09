@@ -7,4 +7,5 @@ import java.util.List;
 public interface CartServiceProvider {
     Cart addToCart(String cartId, Long productId, List<Long> configurationIds);
     Cart getCart(String id);
+    Cart removeCart(String id);
 }

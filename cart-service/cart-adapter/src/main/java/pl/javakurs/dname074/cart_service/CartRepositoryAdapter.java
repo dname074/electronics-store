@@ -19,4 +19,9 @@ public class CartRepositoryAdapter implements CartRepositoryProvider {
     public Optional<Cart> findById(String id) {
         return repository.findById(id);
     }
+
+    @Override
+    public void delete(String cartId) {
+        repository.deleteById(cartId);
+    }
 }

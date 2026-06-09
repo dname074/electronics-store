@@ -23,8 +23,7 @@ public class CartService implements CartServiceProvider {
     @Override
     public Cart getCart(String id) {
         log.info("Process of getting cart has started");
-        Cart cart = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart with provided id not found"));
+        Cart cart = findCartById(id);
         log.info("Process of getting cart has ended");
         return cart;
     }
@@ -46,7 +45,21 @@ public class CartService implements CartServiceProvider {
         return cart;
     }
 
+    @Override
+    public Cart removeCart(String id) {
+        log.info("Process of removing cart has started");
+        Cart cart = findCartById(id);
+        repository.delete(id);
+        log.info("Process of removing cart has ended");
+        return cart;
+    }
+
     private Cart createNewCart() {
         return new Cart(UUID.randomUUID().toString(), new ArrayList<>(), BigDecimal.ZERO);
+    }
+
+    private Cart findCartById(String id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart with provided id not found"));
     }
 }

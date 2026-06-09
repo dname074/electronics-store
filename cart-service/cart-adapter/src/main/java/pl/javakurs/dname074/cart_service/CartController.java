@@ -85,4 +85,31 @@ public class CartController {
                 product.cartId(), product.productId(), product.configurations());
         return mapper.toDto(service.addToCart(product.cartId(), product.productId(), product.configurations()));
     }
+
+    @Operation(summary = "Remove cart by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cart found and removed",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = CartDto.class))
+                    }),
+            @ApiResponse(responseCode = "400", description = "Bad request, no parameter passed or wrong parameter passed",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(oneOf = {
+                                            ExceptionResponseDto.class,
+                                            ValidExceptionResponseDto.class
+                                    }))
+                    }),
+            @ApiResponse(responseCode = "404", description = "Cart not found",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ExceptionResponseDto.class))
+                    }),
+    })
+    @DeleteMapping("/{id}")
+    public CartDto removeCart(@PathVariable @Size(min = 36, max = 36) String id) {
+        log.info("Received DELETE /api/v1/carts/{} request", id);
+        return mapper.toDto(service.removeCart(id));
+    }
 }
