@@ -1,5 +1,6 @@
 package pl.javakurs.dname074.order_service;
 
+import feign.RetryableException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -52,5 +53,11 @@ public class GlobalExceptionHandler {
                 .toList();
         log.error("Validation exception has occured, messages: {}", errors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ValidExceptionResponseDto(400, errors));
+    }
+
+    @ExceptionHandler(RetryableException.class)
+    public ResponseEntity<ExceptionResponseDto> handleRetryableException(RetryableException exception) {
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(
+                new ExceptionResponseDto(500, "External service failed after retries"));
     }
 }

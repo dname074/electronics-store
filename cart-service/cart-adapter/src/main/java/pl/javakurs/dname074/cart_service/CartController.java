@@ -49,7 +49,7 @@ public class CartController {
     })
     @GetMapping("/{id}")
     public CartDto getCart(@PathVariable @Size(min = 36, max = 36) String id) {
-        log.info("Received GET /api/v1/carts/{} request", id);
+        log.info("Received GET /carts/{} request", id);
         return mapper.toDto(service.getCart(id));
     }
 
@@ -81,7 +81,7 @@ public class CartController {
     })
     @PostMapping
     public CartDto addToCart(@RequestBody @Valid AddToCartCommand product) {
-        log.info("Received POST /api/v1/carts request with body: cartId = {}, productId = {}, configurations : {}",
+        log.info("Received POST /carts request with body: cartId = {}, productId = {}, configurations : {}",
                 product.cartId(), product.productId(), product.configurations());
         return mapper.toDto(service.addToCart(product.cartId(), product.productId(), product.configurations()));
     }
@@ -109,7 +109,7 @@ public class CartController {
     })
     @DeleteMapping("/{id}")
     public CartDto removeCart(@PathVariable @Size(min = 36, max = 36) String id) {
-        log.info("Received DELETE /api/v1/carts/{} request", id);
+        log.info("Received DELETE /carts/{} request", id);
         return mapper.toDto(service.removeCart(id));
     }
 }

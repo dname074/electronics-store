@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import pl.javakurs.dname074.order.domain.OrderServiceProvider;
 import pl.javakurs.dname074.order.dto.CreateOrderCommand;
 import pl.javakurs.dname074.order.dto.ExceptionResponseDto;
 import pl.javakurs.dname074.order.dto.OrderDto;
@@ -27,7 +26,7 @@ import pl.javakurs.dname074.order.dto.ValidExceptionResponseDto;
 @RequestMapping("/orders")
 @Slf4j
 public class OrderController {
-    private final OrderServiceProvider orderService;
+    private final OrderServiceFacade orderService;
     private final PageMapper pageMapper;
     private final OrderMapper orderMapper;
 
