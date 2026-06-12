@@ -14,6 +14,7 @@ import java.time.Instant;
 public class OrderService implements OrderServiceProvider {
     private final CartClientProvider cartClient;
     private final OrderRepositoryProvider orderRepository;
+    private final KafkaSenderProvider kafkaSender;
 
     @Override
     public Order createOrder(String cartId) {
@@ -25,6 +26,7 @@ public class OrderService implements OrderServiceProvider {
         order = orderRepository.save(order);
         OrderCart removedCart = cartClient.removeCart(cartId);
         log.info("Cart has been removed: {}", removedCart);
+        kafkaSender.sendCreatedOrdersEvent(order);
         log.info("Process of creating order has ended");
         return order;
     }
