@@ -29,6 +29,7 @@ public class OrderController {
     private final OrderServiceFacade orderService;
     private final PageMapper pageMapper;
     private final OrderMapper orderMapper;
+    private final CustomerMapper customerMapper;
 
     @Operation(summary = "Create order with cart id")
     @ApiResponses(value = {
@@ -54,8 +55,10 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public OrderDto createOrder(@RequestBody CreateOrderCommand orderCommand) {
-        log.info("Received POST /orders request with body {}", orderCommand.cartId());
-        return orderMapper.toDto(orderService.createOrder(orderCommand.cartId()));
+        log.info("Received POST /orders request with body {}", orderCommand);
+        return orderMapper.toDto(
+                orderService.createOrder(orderCommand.cartId(),
+                        customerMapper.commandToPojo(orderCommand.customer())));
     }
 
     @Operation(summary = "Get orders history")

@@ -11,6 +11,7 @@ public record OrderDto(
         OrderStatus status,
         BigDecimal totalPrice,
         List<OrderProductDto> products,
+        CustomerDto customer,
         Instant createdAt,
         Instant updatedAt
 ) {

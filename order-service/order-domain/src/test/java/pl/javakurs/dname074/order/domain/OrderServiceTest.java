@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pl.javakurs.dname074.order.model.Customer;
 import pl.javakurs.dname074.order.model.exception.ExternalClientException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -27,9 +28,10 @@ public class OrderServiceTest {
     @Test
     void createOrder_CartNotFound_ExternalClientException() {
         String cartId = "8d379dc8-af0f-4122-85d5-39064cf092b7";
+        Customer customer = new Customer(null, "Jan", "Kowalski", "Polska", "Warszawa", "50-660", "Szybka", 8, null);
         when(client.getCart(cartId)).thenThrow(ExternalClientException.class);
 
-        assertThrows(ExternalClientException.class, () -> service.createOrder(cartId));
+        assertThrows(ExternalClientException.class, () -> service.createOrder(cartId, customer));
 
         verifyNoInteractions(repository);
         verify(client, times(1)).getCart(anyString());

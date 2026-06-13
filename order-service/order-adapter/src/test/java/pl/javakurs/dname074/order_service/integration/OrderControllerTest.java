@@ -14,17 +14,12 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import pl.javakurs.dname074.order.dto.ConfigurationDto;
-import pl.javakurs.dname074.order.dto.CreateOrderCommand;
-import pl.javakurs.dname074.order.dto.OrderCartDto;
-import pl.javakurs.dname074.order.dto.OrderProductDto;
-import pl.javakurs.dname074.order.model.ConfigType;
-import pl.javakurs.dname074.order.model.Configuration;
-import pl.javakurs.dname074.order.model.OrderStatus;
-import pl.javakurs.dname074.order.model.ProductType;
+import pl.javakurs.dname074.order.dto.*;
+import pl.javakurs.dname074.order.model.*;
 import pl.javakurs.dname074.order_service.ConfigurationMapper;
 import pl.javakurs.dname074.order_service.ContainerConfig;
 import pl.javakurs.dname074.order_service.OrderRepository;
+import pl.javakurs.dname074.order_service.entity.OrderCustomerEntity;
 import pl.javakurs.dname074.order_service.entity.OrderEntity;
 import pl.javakurs.dname074.order_service.entity.OrderProductEntity;
 
@@ -32,11 +27,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.deleteRequestedFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-import static com.github.tomakehurst.wiremock.client.WireMock.verify;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -63,16 +54,20 @@ public class OrderControllerTest {
         repository.deleteAll();
         cartClientMock.resetAll();
 
-        repository.save(new OrderEntity(null, OrderStatus.CREATED, BigDecimal.valueOf(5000),
+        OrderEntity order = new OrderEntity(null, OrderStatus.CREATED, BigDecimal.valueOf(5000),
                 List.of(new OrderProductEntity(null, "ES-1234-2314", "Computer", BigDecimal.valueOf(4000),
                         ProductType.COMPUTER, "Computer super", createConfigurationList())),
-                Instant.ofEpochMilli(1000000), Instant.ofEpochMilli(1000000)));
+                new OrderCustomerEntity(1L, "Jan", "Kowalski", "Polska", "Warszawa", "50-660", "Szybka", 8, null),
+                Instant.ofEpochMilli(1000000), Instant.ofEpochMilli(1000000));
+        order.getCustomer().setOrder(order);
+        repository.save(order);
         repository.flush();
     }
 
     @Test
     void createOrder_CorrectDataPassed_OrderDtoReturned() throws Exception {
-        CreateOrderCommand createOrderCommand = new CreateOrderCommand("8d379dc8-af0f-4122-85d5-39064cf092bs");
+        CreateCustomerCommand customer = new CreateCustomerCommand("Jan", "Kowalski", "Polska", "Warszawa", "50-660", "Szybka", 8);
+        CreateOrderCommand createOrderCommand = new CreateOrderCommand("8d379dc8-af0f-4122-85d5-39064cf092bs", customer);
         List<ConfigurationDto> configurationSnapshot = createConfigurationList().stream()
                 .map(configurationMapper::toDto)
                 .toList();

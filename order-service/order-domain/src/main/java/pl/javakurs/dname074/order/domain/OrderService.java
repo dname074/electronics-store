@@ -2,10 +2,7 @@ package pl.javakurs.dname074.order.domain;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import pl.javakurs.dname074.order.model.Order;
-import pl.javakurs.dname074.order.model.OrderCart;
-import pl.javakurs.dname074.order.model.OrderStatus;
-import pl.javakurs.dname074.order.model.PagePojo;
+import pl.javakurs.dname074.order.model.*;
 
 import java.time.Instant;
 
@@ -17,12 +14,13 @@ public class OrderService implements OrderServiceProvider {
     private final KafkaSenderProvider kafkaSender;
 
     @Override
-    public Order createOrder(String cartId) {
+    public Order createOrder(String cartId, Customer customer) {
         log.info("Process of creating order has started");
         OrderCart cart = cartClient.getCart(cartId);
         System.out.println(cart.getProducts().getFirst().getConfigurationSnapshot());
         Order order = new Order(null, OrderStatus.CREATED, cart.getTotalPrice(),
-                cart.getProducts(), Instant.now(), Instant.now());
+                cart.getProducts(), customer, Instant.now(), Instant.now());
+        customer.setOrder(order);
         order = orderRepository.save(order);
         OrderCart removedCart = cartClient.removeCart(cartId);
         log.info("Cart has been removed: {}", removedCart);

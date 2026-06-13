@@ -20,6 +20,7 @@ public class Order {
     private OrderStatus status;
     private BigDecimal totalPrice;
     private List<OrderProduct> products;
+    private Customer customer;
     private Instant createdAt;
     private Instant updatedAt;
 }

@@ -32,7 +32,8 @@
 		<module>product-service</module>
         <module>cart-service</module>
 		<module>order-service</module>
-	</modules>
+        <module>invoice-service</module>
+    </modules>
 
 	<dependencyManagement>
 		<dependencies>
