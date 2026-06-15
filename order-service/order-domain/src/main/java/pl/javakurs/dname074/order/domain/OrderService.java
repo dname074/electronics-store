@@ -3,6 +3,7 @@ package pl.javakurs.dname074.order.domain;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.javakurs.dname074.order.model.*;
+import pl.javakurs.dname074.order.model.exception.MissingResourceException;
 
 import java.time.Instant;
 
@@ -16,6 +17,9 @@ public class OrderService implements OrderServiceProvider {
     @Override
     public Order createOrder(String cartId, Customer customer) {
         log.info("Process of creating order has started");
+        if (customer == null) {
+            throw new MissingResourceException("Customer data has not been provided");
+        }
         OrderCart cart = cartClient.getCart(cartId);
         System.out.println(cart.getProducts().getFirst().getConfigurationSnapshot());
         Order order = new Order(null, OrderStatus.CREATED, cart.getTotalPrice(),

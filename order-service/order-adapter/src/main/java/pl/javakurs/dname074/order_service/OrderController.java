@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -54,7 +55,7 @@ public class OrderController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public OrderDto createOrder(@RequestBody CreateOrderCommand orderCommand) {
+    public OrderDto createOrder(@RequestBody @Valid CreateOrderCommand orderCommand) {
         log.info("Received POST /orders request with body {}", orderCommand);
         return orderMapper.toDto(
                 orderService.createOrder(orderCommand.cartId(),
