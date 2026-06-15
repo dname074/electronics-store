@@ -20,7 +20,7 @@ services:
     env_file:
       - .env
     ports:
-      - 5433:5433
+      - 5433:80
     networks:
       - postgres_network
     volumes:
