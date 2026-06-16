@@ -10,7 +10,7 @@ import pl.javakurs.dname074.invoice.domain.InvoiceService;
 import pl.javakurs.dname074.invoice.domain.InvoiceServiceProvider;
 
 @Configuration
-public class AppConfiguration {
+class AppConfiguration {
     @Bean
     public InvoiceServiceProvider invoiceService(InvoiceClientProvider client, InvoiceRepositoryProvider repository,
                                                  ServiceProperties properties) {

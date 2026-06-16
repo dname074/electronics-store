@@ -10,7 +10,7 @@ import pl.javakurs.dname074.invoice.model.PagePojo;
 
 @RequiredArgsConstructor
 @Component
-public class InvoiceServiceFacade {
+class InvoiceServiceFacade {
     private final InvoiceServiceProvider service;
 
     @Transactional

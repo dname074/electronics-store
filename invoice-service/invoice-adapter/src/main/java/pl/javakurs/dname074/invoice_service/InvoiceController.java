@@ -25,7 +25,7 @@ import pl.javakurs.dname074.invoice.dto.ValidExceptionResponseDto;
 @RestController
 @RequestMapping("/invoices")
 @Slf4j
-public class InvoiceController {
+class InvoiceController {
     private final InvoiceServiceFacade invoiceService;
     private final OrderMapper orderMapper;
     private final InvoiceMapper invoiceMapper;

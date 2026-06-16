@@ -10,7 +10,7 @@ import pl.javakurs.dname074.invoice.model.Invoice;
 
 @RequiredArgsConstructor
 @Component
-public class InvoiceClientAdapter implements InvoiceClientProvider {
+class InvoiceClientAdapter implements InvoiceClientProvider {
     private final InvoiceClient invoiceClient;
     private final InvoiceMapper invoiceMapper;
 

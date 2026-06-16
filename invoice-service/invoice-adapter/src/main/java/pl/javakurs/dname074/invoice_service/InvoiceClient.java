@@ -11,7 +11,7 @@ import pl.javakurs.dname074.invoice.dto.InvoiceRequest;
         configuration = InvoiceClientConfiguration.class,
         fallback = InvoiceClientFallback.class
 )
-public interface InvoiceClient {
+interface InvoiceClient {
     @PostMapping("/invoices.json")
     InvoiceApiResponse generateInvoice(@RequestBody InvoiceRequest invoice);
 }

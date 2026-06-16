@@ -7,7 +7,7 @@ import pl.javakurs.dname074.invoice.dto.InvoiceRequest;
 
 @Component
 @Slf4j
-public class InvoiceClientFallback implements InvoiceClient {
+class InvoiceClientFallback implements InvoiceClient {
     @Override
     public InvoiceApiResponse generateInvoice(InvoiceRequest invoice) {
         log.info("Fallback occurred after requesting invoice api");

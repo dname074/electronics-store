@@ -8,7 +8,7 @@ import pl.javakurs.dname074.invoice.model.Invoice;
 import pl.javakurs.dname074.invoice_service.entity.InvoiceEntity;
 
 @Mapper(componentModel = "spring")
-public interface InvoiceMapper {
+interface InvoiceMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "externalProviderId", source = "id")
     @Mapping(target = "invoiceNumber", source = "number")

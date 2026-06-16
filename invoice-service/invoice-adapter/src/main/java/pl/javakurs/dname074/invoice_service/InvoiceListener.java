@@ -21,7 +21,7 @@ import java.net.SocketTimeoutException;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class InvoiceListener {
+class InvoiceListener {
     private final InvoiceServiceFacade invoiceService;
     private final OrderMapper orderMapper;
 

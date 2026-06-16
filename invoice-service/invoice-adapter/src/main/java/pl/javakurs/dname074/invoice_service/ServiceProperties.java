@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "invoice")
-public class ServiceProperties {
+class ServiceProperties {
     private Integer paymentDays;
     private Integer defaultTax;
     private String kind;

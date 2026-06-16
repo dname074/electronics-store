@@ -13,7 +13,7 @@ import pl.javakurs.dname074.domain.ProductService;
 import pl.javakurs.dname074.domain.ProductServiceProvider;
 
 @Configuration
-public class AppConfiguration {
+class AppConfiguration {
     @Bean
     public ProductServiceProvider productService(ProductRepositoryProvider productRepository,
                                                  ConfigurationRepositoryProvider configurationRepository) {

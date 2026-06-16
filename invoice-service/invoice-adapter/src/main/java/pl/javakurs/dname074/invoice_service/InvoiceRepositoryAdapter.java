@@ -10,7 +10,7 @@ import pl.javakurs.dname074.invoice.model.PagePojo;
 
 @RequiredArgsConstructor
 @Component
-public class InvoiceRepositoryAdapter implements InvoiceRepositoryProvider {
+class InvoiceRepositoryAdapter implements InvoiceRepositoryProvider {
     private final InvoiceRepository repository;
     private final InvoiceMapper invoiceMapper;
     private final PageMapper pageMapper;
