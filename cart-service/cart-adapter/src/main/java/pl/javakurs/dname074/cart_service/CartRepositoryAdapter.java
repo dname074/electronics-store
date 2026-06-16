@@ -7,7 +7,7 @@ import pl.javakurs.dname074.cart.model.Cart;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class CartRepositoryAdapter implements CartRepositoryProvider {
+class CartRepositoryAdapter implements CartRepositoryProvider {
     private final CartRepository repository;
 
     @Override

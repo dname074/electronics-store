@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import pl.javakurs.dname074.order.domain.*;
 
 @Configuration
-public class AppConfiguration {
+class AppConfiguration {
     @Bean
     public OrderServiceProvider orderService(CartClientProvider cartClient,
                                              OrderRepositoryProvider orderRepository,

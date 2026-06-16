@@ -9,7 +9,7 @@ import pl.javakurs.dname074.cart.dto.CartProductDto;
         name = "productClient",
         configuration = ProductClientConfiguration.class
 )
-public interface ProductClient {
+interface ProductClient {
     @GetMapping("/products/{id}")
     CartProductDto getProduct(@PathVariable Long id);
 }

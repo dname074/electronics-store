@@ -11,7 +11,7 @@ import pl.javakurs.dname074.order_service.entity.OrderEntity;
 
 @Component
 @RequiredArgsConstructor
-public class OrderRepositoryAdapter implements OrderRepositoryProvider {
+class OrderRepositoryAdapter implements OrderRepositoryProvider {
     private final OrderRepository repository;
     private final OrderMapper orderMapper;
     private final PageMapper pageMapper;

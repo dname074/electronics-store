@@ -5,7 +5,7 @@ import pl.javakurs.dname074.cart.domain.ProductClientProvider;
 import pl.javakurs.dname074.cart.model.CartProduct;
 
 @RequiredArgsConstructor
-public class ProductClientAdapter implements ProductClientProvider {
+class ProductClientAdapter implements ProductClientProvider {
     private final ProductClient client;
     private final ProductMapper mapper;
 

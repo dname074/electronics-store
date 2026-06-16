@@ -10,7 +10,7 @@ import pl.javakurs.dname074.order.dto.OrderCartDto;
         name = "cartServiceClient",
         configuration = CartClientConfiguration.class
 )
-public interface CartClient {
+interface CartClient {
     @GetMapping("/carts/{id}")
     OrderCartDto getCart(@PathVariable("id") String id);
     @DeleteMapping("/carts/{id}")

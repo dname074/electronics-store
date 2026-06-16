@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 @Repository
 @RequiredArgsConstructor
-public class CartRepository {
+class CartRepository {
     private static final String CART_PREFIX = "cart:";
     private static final long TTL_HOURS = 24;
 

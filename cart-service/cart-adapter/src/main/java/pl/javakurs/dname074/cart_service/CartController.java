@@ -22,7 +22,7 @@ import pl.javakurs.dname074.cart.dto.ValidExceptionResponseDto;
 @RestController
 @RequestMapping("/carts")
 @Validated
-public class CartController {
+class CartController {
     private final CartServiceProvider service;
     private final CartMapper mapper;
 

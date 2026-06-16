@@ -11,7 +11,7 @@ import pl.javakurs.dname074.order.model.Order;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class KafkaSender implements KafkaSenderProvider {
+class KafkaSender implements KafkaSenderProvider {
     @Value("${order-service.created-orders-topic}")
     private String createdOrdersTopic;
     private final KafkaTemplate<String, Object> kafkaTemplate;

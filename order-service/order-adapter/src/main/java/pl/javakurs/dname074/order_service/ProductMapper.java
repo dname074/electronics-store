@@ -7,7 +7,7 @@ import pl.javakurs.dname074.order.model.OrderProduct;
 import pl.javakurs.dname074.order_service.entity.OrderProductEntity;
 
 @Mapper(componentModel = "spring", uses = ConfigurationMapper.class)
-public interface ProductMapper {
+interface ProductMapper {
     @Mapping(target = "id", ignore = true)
     OrderProduct toPojo(OrderProductDto dto);
     OrderProduct entityToPojo(OrderProductEntity entity);

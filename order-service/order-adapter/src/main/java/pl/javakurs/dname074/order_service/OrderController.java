@@ -26,7 +26,7 @@ import pl.javakurs.dname074.order.dto.ValidExceptionResponseDto;
 @RestController
 @RequestMapping("/orders")
 @Slf4j
-public class OrderController {
+class OrderController {
     private final OrderServiceFacade orderService;
     private final PageMapper pageMapper;
     private final OrderMapper orderMapper;

@@ -19,7 +19,7 @@ import pl.javakurs.dname074.cart.domain.ProductClientProvider;
 import pl.javakurs.dname074.cart.model.Cart;
 
 @Configuration
-public class AppConfiguration {
+class AppConfiguration {
     @Bean
     public CartRepositoryProvider cartRepositoryProvider(CartRepository repository) {
         return new CartRepositoryAdapter(repository);

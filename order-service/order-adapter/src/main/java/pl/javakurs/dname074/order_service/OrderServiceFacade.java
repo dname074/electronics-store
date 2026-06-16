@@ -10,7 +10,7 @@ import pl.javakurs.dname074.order.model.PagePojo;
 
 @Service
 @RequiredArgsConstructor
-public class OrderServiceFacade {
+class OrderServiceFacade {
     private final OrderServiceProvider orderService;
 
     @Transactional

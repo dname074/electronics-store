@@ -8,7 +8,7 @@ import pl.javakurs.dname074.order.model.Customer;
 import pl.javakurs.dname074.order_service.entity.OrderCustomerEntity;
 
 @Mapper(componentModel = "spring")
-public interface CustomerMapper {
+interface CustomerMapper {
 //    @Mapping(target = "id", ignore = true)
     Customer commandToPojo(CreateCustomerCommand command);
     @Mapping(target = "order", ignore = true)

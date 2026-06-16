@@ -17,7 +17,7 @@ import java.util.List;
 
 @ControllerAdvice
 @Slf4j
-public class GlobalExceptionHandler {
+class GlobalExceptionHandler {
     @ExceptionHandler(GlobalException.class)
     public ResponseEntity<ExceptionResponseDto> handleGlobalException(GlobalException exception) {
         log.error("Exception has occured, message: {}", exception.getMessage());

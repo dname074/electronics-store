@@ -17,7 +17,7 @@ import java.util.Optional;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class CustomErrorDecoder implements ErrorDecoder {
+class CustomErrorDecoder implements ErrorDecoder {
     private final ObjectMapper objectMapper;
 
     @Override

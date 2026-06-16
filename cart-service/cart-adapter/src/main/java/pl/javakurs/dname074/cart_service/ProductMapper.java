@@ -7,7 +7,7 @@ import pl.javakurs.dname074.cart.model.CartProduct;
 import pl.javakurs.dname074.cart.model.Configuration;
 
 @Mapper(componentModel = "spring")
-public interface ProductMapper {
+interface ProductMapper {
     CartProduct toPojo(CartProductDto product);
     CartProductDto toDto(CartProductDto productDto);
     Configuration configurationToPojo(ConfigurationDto configurationDto);
