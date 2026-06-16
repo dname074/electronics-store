@@ -20,8 +20,10 @@ public class OrderService implements OrderServiceProvider {
         if (customer == null) {
             throw new MissingResourceException("Customer data has not been provided");
         }
+        if (cartId == null) {
+            throw new MissingResourceException("Cart id has not been provided");
+        }
         OrderCart cart = cartClient.getCart(cartId);
-        System.out.println(cart.getProducts().getFirst().getConfigurationSnapshot());
         Order order = new Order(null, OrderStatus.CREATED, cart.getTotalPrice(),
                 cart.getProducts(), customer, Instant.now(), Instant.now());
         customer.setOrder(order);

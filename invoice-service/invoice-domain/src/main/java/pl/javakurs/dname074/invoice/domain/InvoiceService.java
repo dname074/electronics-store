@@ -1,6 +1,7 @@
 package pl.javakurs.dname074.invoice.domain;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import pl.javakurs.dname074.invoice.model.*;
 
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ import java.time.ZoneOffset;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Slf4j
 public class InvoiceService implements InvoiceServiceProvider {
     private final int PAYMENT_TIME; // in days
     private final int DEFAULT_TAX;
@@ -23,16 +25,25 @@ public class InvoiceService implements InvoiceServiceProvider {
 
     @Override
     public Invoice generateInvoice(Order order) {
+        log.info("Process of generating invoice has started");
         LocalDate date = extractDate(order.getCreatedAt());
         List<InvoiceProduct> products = prepareProducts(order.getProducts());
 
-        CreateInvoiceCommand invoiceRequest = createInvoice(date, order.getCustomer(),
+        CreateInvoiceCommand invoiceRequest = createInvoiceRequest(date, order.getCustomer(),
                 order.getTotalPrice(), products);
-        Invoice invoice = client.generateInvoice(invoiceRequest);
-        invoice.fulfillData(order.getId());
-        Invoice dbInvoice = repository.save(invoice);
-        invoice.setId(dbInvoice.getId());
+
+        Invoice invoice = generateAndPersistInvoice(order.getId(), invoiceRequest);
+
+        log.info("Process of generating invoice has ended");
         return invoice;
+    }
+
+    @Override
+    public PagePojo<Invoice> getInvoices(int page, int size) {
+        log.info("Process of getting invoices has started");
+        PagePojo<Invoice> invoicesPage = repository.findAll(page, size);
+        log.info("Process of getting invoices has ended");
+        return invoicesPage;
     }
 
     private LocalDate extractDate(Instant date) {
@@ -48,8 +59,8 @@ public class InvoiceService implements InvoiceServiceProvider {
                 .toList();
     }
 
-    private CreateInvoiceCommand createInvoice(LocalDate date, Customer customer,
-                                               BigDecimal totalPrice, List<InvoiceProduct> products) {
+    private CreateInvoiceCommand createInvoiceRequest(LocalDate date, Customer customer,
+                                                      BigDecimal totalPrice, List<InvoiceProduct> products) {
         return CreateInvoiceCommand.builder()
                 .kind(KIND)
                 .sellDate(date)
@@ -73,5 +84,17 @@ public class InvoiceService implements InvoiceServiceProvider {
                 .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)
                 .add(BigDecimal.ONE);
         return grossPrice.divide(divider, 2, RoundingMode.HALF_UP);
+    }
+
+    private Invoice generateAndPersistInvoice(Long orderId, CreateInvoiceCommand invoiceRequest) {
+        Invoice invoice = client.generateInvoice(invoiceRequest);
+        if (invoice.getExternalProviderId() == null) {
+            log.info("Fallback invoice returned");
+            return invoice;
+        }
+        invoice.fulfillData(orderId);
+        Invoice dbInvoice = repository.save(invoice);
+        invoice.setId(dbInvoice.getId());
+        return invoice;
     }
 }

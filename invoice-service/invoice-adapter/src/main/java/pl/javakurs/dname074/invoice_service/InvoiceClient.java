@@ -7,7 +7,9 @@ import pl.javakurs.dname074.invoice.dto.InvoiceApiResponse;
 import pl.javakurs.dname074.invoice.dto.InvoiceRequest;
 
 @FeignClient(
-        name = "invoiceClient"
+        name = "invoiceClient",
+        configuration = InvoiceClientConfiguration.class,
+        fallback = InvoiceClientFallback.class
 )
 public interface InvoiceClient {
     @PostMapping("/invoices.json")
