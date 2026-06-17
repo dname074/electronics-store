@@ -38,8 +38,8 @@ public class CartService implements CartServiceProvider {
         List<Configuration> configs = configValidator.getCorrectConfiguration(product, configurationIds);
 
         product.setConfigurations(configs);
+        product.calculateTotalPrice();
         cart.addProduct(product);
-        cart.calculateTotalPrice();
         repository.save(cart);
         log.info("Process of adding product to cart has ended");
         return cart;

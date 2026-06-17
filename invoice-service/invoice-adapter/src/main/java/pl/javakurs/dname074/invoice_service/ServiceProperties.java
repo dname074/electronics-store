@@ -15,4 +15,6 @@ class ServiceProperties {
     private String kind;
     private String currency;
     private String sellerName;
+    private String firstPartDownloadUrl;
+    private String secondPartDownloadUrl;
 }

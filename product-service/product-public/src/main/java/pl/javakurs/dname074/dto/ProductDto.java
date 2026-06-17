@@ -9,6 +9,7 @@ public record ProductDto(
         Long id,
         String sku,
         String name,
+        BigDecimal basePrice,
         BigDecimal totalPrice,
         ProductType type,
         String label,

@@ -6,6 +6,7 @@ import pl.javakurs.dname074.cart.model.Configuration;
 import pl.javakurs.dname074.cart.model.exception.DuplicateConfigurationException;
 import pl.javakurs.dname074.cart.model.exception.InvalidConfigurationException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,26 +21,22 @@ public class ConfigurationValidator {
     }
 
     private List<Configuration> getDefaultConfiguration(CartProduct product) {
-        if (product.getConfigurations() == null) {
-            return List.of();
-        }
-
-        List<Configuration> defaults = product.getConfigurations().stream()
+        List<Configuration> defaults = getProductConfigurations(product).stream()
                 .filter(configuration -> Boolean.TRUE.equals(configuration.getIsDefault()))
                 .toList();
 
-        validateNoDuplicates(defaults);
+        validateNoTypeDuplicates(defaults);
 
         return defaults;
     }
 
     private List<Configuration> getChosenConfigurations(CartProduct product, List<Long> configurations) {
-        List<Configuration> validatedConfigs = product.getConfigurations().stream()
+        List<Configuration> validatedConfigs = getProductConfigurations(product).stream()
                 .filter(configuration -> configurations.contains(configuration.getId()))
-                .toList();
+                .collect(Collectors.toList());
         validateProductHasConfigurations(validatedConfigs, configurations);
-        validateNoDuplicates(validatedConfigs);
-        return validatedConfigs;
+        validateNoTypeDuplicates(validatedConfigs);
+        return fulfillListWithDefaultConfigurations(product, validatedConfigs);
     }
 
     private void validateProductHasConfigurations(List<Configuration> validatedConfigs, List<Long> requestedConfigs) {
@@ -59,7 +56,7 @@ public class ConfigurationValidator {
         }
     }
 
-    private void validateNoDuplicates(List<Configuration> configurations) {
+    private void validateNoTypeDuplicates(List<Configuration> configurations) {
         Map<ConfigType, Long> countByType = configurations.stream()
                 .collect(Collectors.groupingBy(
                         Configuration::getType,
@@ -74,5 +71,29 @@ public class ConfigurationValidator {
         if (!duplicates.isEmpty()) {
             throw new DuplicateConfigurationException("Duplicated configuration has been found");
         }
+    }
+
+    // add default configuration if type was not selected
+    private List<Configuration> fulfillListWithDefaultConfigurations(CartProduct product, List<Configuration> validatedConfigs) {
+        List<Configuration> fulfilledConfigurations = new ArrayList<>(validatedConfigs);
+        List<Configuration> defaultConfigs = getDefaultConfiguration(product);
+
+        Set<ConfigType> selectedTypes = validatedConfigs.stream()
+                .map(Configuration::getType)
+                .collect(Collectors.toSet());
+
+        for (Configuration defaultConfig : defaultConfigs) {
+            if (!selectedTypes.contains(defaultConfig.getType())) {
+                fulfilledConfigurations.add(defaultConfig);
+            }
+        }
+        return fulfilledConfigurations;
+    }
+
+    private List<Configuration> getProductConfigurations(CartProduct product) {
+        if (product.getConfigurations() == null) {
+            return List.of();
+        }
+        return product.getConfigurations();
     }
 }

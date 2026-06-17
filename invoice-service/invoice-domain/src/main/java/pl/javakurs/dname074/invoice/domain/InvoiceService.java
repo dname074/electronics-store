@@ -19,6 +19,8 @@ public class InvoiceService implements InvoiceServiceProvider {
     private final String KIND;
     private final String CURRENCY;
     private final String SELLER_NAME;
+    private final String FIRST_PART_DOWNLOAD_URL;
+    private final String SECOND_PART_DOWNLOAD_URL;
 
     private final InvoiceClientProvider client;
     private final InvoiceRepositoryProvider repository;
@@ -42,6 +44,10 @@ public class InvoiceService implements InvoiceServiceProvider {
     public PagePojo<Invoice> getInvoices(int page, int size) {
         log.info("Process of getting invoices has started");
         PagePojo<Invoice> invoicesPage = repository.findAll(page, size);
+        invoicesPage.getContent()
+                        .forEach(
+                                invoice -> invoice.setPdfDownloadUrl(FIRST_PART_DOWNLOAD_URL + invoice.getExternalProviderId() + SECOND_PART_DOWNLOAD_URL)
+                        );
         log.info("Process of getting invoices has ended");
         return invoicesPage;
     }

@@ -15,7 +15,8 @@ class AppConfiguration {
     public InvoiceServiceProvider invoiceService(InvoiceClientProvider client, InvoiceRepositoryProvider repository,
                                                  ServiceProperties properties) {
         return new InvoiceService(properties.getPaymentDays(), properties.getDefaultTax(), properties.getKind(),
-                properties.getCurrency(), properties.getSellerName(), client, repository);
+                properties.getCurrency(), properties.getSellerName(), properties.getFirstPartDownloadUrl(),
+                properties.getSecondPartDownloadUrl(), client, repository);
     }
 
     @Bean

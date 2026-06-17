@@ -18,13 +18,16 @@ public class Cart {
     private BigDecimal totalPrice;
 
     public void addProduct(CartProduct product) {
-        if (product != null) {
-            products.add(product);
+        if (product == null || this.products == null) {
+            return;
         }
+        this.products.add(product);
+        calculateTotalPrice();
     }
 
-    public void calculateTotalPrice() {
-        if (this.products == null || this.totalPrice == null) {
+    private void calculateTotalPrice() {
+        if (this.products == null || this.products.isEmpty()) {
+            this.totalPrice = BigDecimal.ZERO;
             return;
         }
         this.totalPrice = products.stream()
