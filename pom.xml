@@ -33,6 +33,7 @@
         <module>cart-service</module>
 		<module>order-service</module>
         <module>invoice-service</module>
+        <module>electronics-store-bff</module>
     </modules>
 
 	<dependencyManagement>
