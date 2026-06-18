@@ -1,7 +1,6 @@
-package pl.javakurs.dname074.order.dto;
+package pl.javakurs.dname074.bff.dto;
 
 public record CustomerDto(
-        Long id,
         String firstName,
         String lastName,
         String country,
