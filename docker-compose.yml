@@ -28,7 +28,7 @@ services:
   redis:
     image: redis:7.4-alpine
     healthcheck:
-      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+      test: [ "CMD-SHELL", "redis-cli -a ${REDIS_PASS} ping | grep PONG" ]
       interval: 1s
       timeout: 3s
       retries: 5
@@ -132,7 +132,8 @@ services:
     container_name: product-service
     image: product-service:1.0
     build:
-      dockerfile: /product-service/Dockerfile
+      dockerfile: product-service/Dockerfile
+      context: .
     ports:
       - 8080:8080
     networks:
@@ -148,15 +149,16 @@ services:
     container_name: cart-service
     image: cart-service:1.0
     build:
-      dockerfile: /cart-service/Dockerfile
+      dockerfile: cart-service/Dockerfile
+      context: .
     ports:
       - 8081:8081
     networks:
       - electronics-store_network
       - redis_network
     depends_on:
-      - redis:
-          condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       - SPRING_DATA_REDIS_PASSWORD=${REDIS_PASS}
       - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_PRODUCTCLIENT_URL=http://product-service:8080/
@@ -167,7 +169,8 @@ services:
     container_name: order-service
     image: order-service:1.0
     build:
-      dockerfile: /order-service/Dockerfile
+      dockerfile: order-service/Dockerfile
+      context: .
     ports:
       - 8082:8082
     networks:
@@ -187,7 +190,8 @@ services:
     container_name: invoice-service
     image: invoice-service:1.0
     build:
-      dockerfile: /invoice-service/Dockerfile
+      dockerfile: invoice-service/Dockerfile
+      context: .
     ports:
       - 8083:8083
     networks:
@@ -210,7 +214,8 @@ services:
     container_name: electronics-store-bff
     image: electronics-store-bff:1.0
     build:
-      dockerfile: /electronics-store-bff/Dockerfile
+      dockerfile: electronics-store-bff/Dockerfile
+      context: .
     ports:
       - 8084:8084
     networks:
