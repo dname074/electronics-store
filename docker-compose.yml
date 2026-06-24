@@ -11,6 +11,12 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "admin"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
   pgadmin:
     container_name: pgadmin
     image: elestio/pgadmin:REL-9_13
@@ -67,9 +73,9 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT_HOST://localhost:29092, PLAINTEXT://kafka:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT, PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_LISTENERS: PLAINTEXT_HOST://0.0.0.0:29092, PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
     networks:
       - kafka_network
   schema-registry:
@@ -135,16 +141,18 @@ services:
       dockerfile: product-service/Dockerfile
       context: .
     ports:
-      - 8080:8080
+      - 8085:8085
     networks:
       - electronics-store_network
       - postgres_network
     depends_on:
-      - postgresql
+      postgresql:
+        condition: service_healthy
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/product_db
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - SERVER_PORT=8085
   cart-service:
     container_name: cart-service
     image: cart-service:1.0
@@ -161,7 +169,7 @@ services:
         condition: service_healthy
     environment:
       - SPRING_DATA_REDIS_PASSWORD=${REDIS_PASS}
-      - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_PRODUCTCLIENT_URL=http://product-service:8080/
+      - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_PRODUCTCLIENT_URL=http://product-service:8085/
       - SPRING_DATA_REDIS_HOST=redis
       - CART_CART-PREFIX='cart:'
       - CART_TTL-HOURS=24
@@ -226,7 +234,7 @@ services:
       - order-service
       - invoice-service
     environment:
-      - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_PRODUCTCLIENT_URL=http://product-service:8080/
+      - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_PRODUCTCLIENT_URL=http://product-service:8085/
       - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_CARTCLIENT_URL=http://cart-service:8081/
       - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_ORDERCLIENT_URL=http://order-service:8082/
 networks:
