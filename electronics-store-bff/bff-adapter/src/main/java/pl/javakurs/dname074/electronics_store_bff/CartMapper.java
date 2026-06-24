@@ -5,7 +5,7 @@ import pl.javakurs.dname074.bff.dto.CartDto;
 import pl.javakurs.dname074.bff.model.Cart;
 
 @Mapper(componentModel = "spring")
-public interface CartMapper {
+interface CartMapper {
     CartDto toDto(Cart pojo);
     Cart toPojo(CartDto dto);
 }

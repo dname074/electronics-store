@@ -1,4 +1,4 @@
-package pl.javakurs.dname074.product_service;
+package pl.javakurs.dname074.invoice_service;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;

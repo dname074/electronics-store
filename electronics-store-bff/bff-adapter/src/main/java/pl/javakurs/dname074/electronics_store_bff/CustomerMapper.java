@@ -6,7 +6,7 @@ import pl.javakurs.dname074.bff.dto.CustomerDto;
 import pl.javakurs.dname074.bff.model.Customer;
 
 @Mapper(componentModel = "spring")
-public interface CustomerMapper {
+interface CustomerMapper {
     CustomerDto toDto(Customer pojo);
     Customer toPojo(CustomerDto dto);
     Customer commandToPojo(CreateCustomerCommand command);

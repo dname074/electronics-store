@@ -5,7 +5,7 @@ import pl.javakurs.dname074.bff.dto.ConfigurationDto;
 import pl.javakurs.dname074.bff.model.Configuration;
 
 @Mapper(componentModel = "spring")
-public interface ConfigurationMapper {
+interface ConfigurationMapper {
     ConfigurationDto toDto(Configuration pojo);
     Configuration toPojo(ConfigurationDto dto);
 }

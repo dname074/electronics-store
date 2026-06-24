@@ -13,7 +13,7 @@ import java.math.BigDecimal;
         name = "productClient",
         configuration = GlobalClientConfiguration.class
 )
-public interface ProductClient {
+interface ProductClient {
     @GetMapping("/products")
     PageDto<ProductDto> getProductsPage(@RequestParam Integer page,
                                         @RequestParam Integer size,

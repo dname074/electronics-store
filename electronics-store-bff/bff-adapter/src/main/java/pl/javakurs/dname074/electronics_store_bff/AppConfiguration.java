@@ -16,7 +16,7 @@ import pl.javakurs.dname074.bff.domain.ProductService;
 import pl.javakurs.dname074.bff.domain.ProductServiceProvider;
 
 @Configuration
-public class AppConfiguration {
+class AppConfiguration {
     @Bean
     public OrderServiceProvider orderService(OrderClientProvider orderClient) {
         return new OrderService(orderClient);

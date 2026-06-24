@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pl.javakurs.dname074.order.domain.KafkaSenderProvider;
 import pl.javakurs.dname074.order.dto.CreateCustomerCommand;
 import pl.javakurs.dname074.order.dto.CreateOrderCommand;
 import pl.javakurs.dname074.order.model.*;
@@ -36,6 +37,8 @@ public class OrderControllerTest {
     OrderMapper orderMapper;
     @MockitoBean
     OrderServiceFacade orderService;
+    @MockitoBean
+    KafkaSenderProvider kafkaSenderProvider;
 
     @Autowired
     ObjectMapper mapper;

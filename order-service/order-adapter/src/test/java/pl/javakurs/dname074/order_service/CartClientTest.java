@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import pl.javakurs.dname074.order.domain.KafkaSenderProvider;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
@@ -23,6 +25,10 @@ public class CartClientTest {
     WireMockServer cartClientMock;
     @Autowired
     private CartClient client;
+    @MockitoBean
+    KafkaSenderProvider kafkaSenderProvider;
+    @MockitoBean
+    OrderServiceFacade orderServiceFacade;
 
     @BeforeEach
     void setup() {

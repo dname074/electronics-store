@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,6 +33,12 @@ class GlobalExceptionHandler {
     public ResponseEntity<ExceptionResponseDto> handleBadRequests(Exception exception) {
         log.error("Exception has occurred, because of bad request");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ExceptionResponseDto(400, exception.getMessage()));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ExceptionResponseDto> handleHttpMessageNotReadable(HttpMessageNotReadableException exception) {
+        log.error("Exception has occurred, because of httpMessageNotReadableException - bad request");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ExceptionResponseDto(400, "Wrong data type passed"));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

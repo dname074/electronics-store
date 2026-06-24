@@ -42,14 +42,15 @@ public class CartControllerTest {
     void getCart_DataCorrect_CartDtoReturned() throws Exception {
         String cartId = "9a8f4c22-9154-47b2-841f-13a85b9b2da3";
         CartProduct product = new CartProduct(1L, "fdsg-4354-g4532",
-                "Komputer", BigDecimal.valueOf(5599), ProductType.COMPUTER,
+                "Komputer", BigDecimal.valueOf(5000), BigDecimal.valueOf(6000), ProductType.COMPUTER,
                 "Komputer", List.of(new Configuration(1L, "ram_16_gb_ddr5", ConfigType.RAM,
-                BigDecimal.valueOf(999.99), "RAM 16 GB", true)));
+                BigDecimal.valueOf(1000), "RAM 16 GB", true)));
         List<CartProduct> products = new ArrayList<>(List.of(product));
         Cart cart = new Cart(
                 cartId,
                 products,
-                BigDecimal.valueOf(5599));
+                BigDecimal.valueOf(6000)
+        );
 
         when(cartService.getCart(cartId)).thenReturn(cart);
 
@@ -58,7 +59,7 @@ public class CartControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(cartId))
                 .andExpect(jsonPath("$.products").isNotEmpty())
-                .andExpect(jsonPath("$.total_price").value("5599"));
+                .andExpect(jsonPath("$.total_price").value("6000"));
 
         verify(cartService, times(1)).getCart(cartId);
         verifyNoMoreInteractions(cartService);

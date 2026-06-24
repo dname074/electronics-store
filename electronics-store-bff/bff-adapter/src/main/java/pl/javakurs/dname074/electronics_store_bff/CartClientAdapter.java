@@ -10,7 +10,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class CartClientAdapter implements CartClientProvider {
+class CartClientAdapter implements CartClientProvider {
     private final CartClient client;
     private final CartMapper mapper;
 

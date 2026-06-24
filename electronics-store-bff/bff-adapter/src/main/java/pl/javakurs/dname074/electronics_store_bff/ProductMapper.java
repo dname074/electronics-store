@@ -5,7 +5,7 @@ import pl.javakurs.dname074.bff.dto.ProductDto;
 import pl.javakurs.dname074.bff.model.Product;
 
 @Mapper(componentModel = "spring", uses = ConfigurationMapper.class)
-public interface ProductMapper {
+interface ProductMapper {
     ProductDto toDto(Product product);
     Product toPojo(ProductDto product);
 }

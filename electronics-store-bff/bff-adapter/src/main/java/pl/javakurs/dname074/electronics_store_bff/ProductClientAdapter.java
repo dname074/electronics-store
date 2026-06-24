@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 @Component
 @RequiredArgsConstructor
-public class ProductClientAdapter implements ProductClientProvider {
+class ProductClientAdapter implements ProductClientProvider {
     private final ProductClient client;
     private final PageMapper pageMapper;
     private final ProductMapper productMapper;

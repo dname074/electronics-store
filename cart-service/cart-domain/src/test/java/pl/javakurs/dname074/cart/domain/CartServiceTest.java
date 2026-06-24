@@ -85,24 +85,24 @@ public class CartServiceTest {
         Long productId = 1L;
         List<Long> configurationIds = List.of(1L);
         CartProduct product = new CartProduct(productId, "fdsg-4354-g4532",
-                "Komputer", BigDecimal.valueOf(5599), ProductType.COMPUTER,
+                "Komputer", BigDecimal.valueOf(5000), BigDecimal.valueOf(6000), ProductType.COMPUTER,
                 "Komputer", List.of(new Configuration(1L, "ram_16_gb_ddr5", ConfigType.RAM,
-                BigDecimal.valueOf(999.99), "RAM 16 GB", true)));
+                BigDecimal.valueOf(1000), "RAM 16 GB", true)));
         CartProduct product2 = new CartProduct(2L, "ffdd-ge34-5rfd",
-                "Komputer2", BigDecimal.valueOf(6199), ProductType.COMPUTER,
+                "Komputer2", BigDecimal.valueOf(6000), BigDecimal.valueOf(7000), ProductType.COMPUTER,
                 "Komputer2", List.of(new Configuration(1L, "ram_16_gb_ddr5", ConfigType.RAM,
-                BigDecimal.valueOf(999.99), "RAM 16 GB", true)));
+                BigDecimal.valueOf(1000), "RAM 16 GB", true)));
 
         List<CartProduct> products = new ArrayList<>(List.of(product2));
         Cart cart = new Cart(
                 id,
                 products,
-                BigDecimal.valueOf(6199));
+                BigDecimal.valueOf(7000));
         List<CartProduct> products2 = new ArrayList<>(List.of(product, product2));
         Cart expectedCart = new Cart(
                 id,
                 products2,
-                BigDecimal.valueOf(5599+6199));
+                BigDecimal.valueOf(13000));
 
         when(repository.findById(id)).thenReturn(Optional.of(cart));
         when(client.getProduct(productId)).thenReturn(product);
@@ -150,15 +150,13 @@ public class CartServiceTest {
         Long productId = 1L;
         List<Long> configurationIds = List.of(2L);
         CartProduct product = new CartProduct(productId, "fdsg-4354-g4532",
-                "Komputer", BigDecimal.valueOf(5599), ProductType.COMPUTER,
+                "Komputer", BigDecimal.valueOf(5000), BigDecimal.valueOf(5999.99), ProductType.COMPUTER,
                 "Komputer", List.of(new Configuration(1L, "ram_16_gb_ddr5", ConfigType.RAM,
                 BigDecimal.valueOf(999.99), "RAM 16 GB", true)));
-        List<CartProduct> products = new ArrayList<>(List.of(product));
         Cart cart = new Cart(
                 cartId,
-                products,
-                BigDecimal.valueOf(6199));
-        List<Long> unknownIds = List.of(2L);
+                new ArrayList<>(),
+                BigDecimal.ZERO);
 
         when(repository.findById(cartId)).thenReturn(Optional.of(cart));
         when(client.getProduct(productId)).thenReturn(product);
@@ -166,7 +164,7 @@ public class CartServiceTest {
         InvalidConfigurationException exception = assertThrows(InvalidConfigurationException.class,
                 ()-> service.addToCart(cartId, productId, configurationIds));
 
-        assertEquals("Unknown configuration IDs: " + unknownIds, exception.getMessage());
+        assertEquals("Unknown configuration IDs: " + configurationIds, exception.getMessage());
 
         verify(repository, times(1)).findById(cartId);
         verify(client, times(1)).getProduct(productId);
@@ -179,7 +177,7 @@ public class CartServiceTest {
         Long productId = 1L;
         List<Long> configurationIds = List.of(1L);
         CartProduct product = new CartProduct(productId, "fdsg-4354-g4532",
-                "Komputer", BigDecimal.valueOf(5599), ProductType.COMPUTER,
+                "Komputer", BigDecimal.valueOf(5000), BigDecimal.valueOf(5999.99), ProductType.COMPUTER,
                 "Komputer", List.of(new Configuration(1L, "ram_16_gb_ddr5", ConfigType.RAM,
                 BigDecimal.valueOf(999.99), "RAM 16 GB", true)));
 
@@ -187,7 +185,7 @@ public class CartServiceTest {
         Cart expectedCart = new Cart(
                 null,
                 products,
-                BigDecimal.valueOf(5599));
+                BigDecimal.valueOf(5999.99));
 
         when(client.getProduct(productId)).thenReturn(product);
         doNothing().when(repository).save(any());
@@ -212,15 +210,15 @@ public class CartServiceTest {
         Long productId = 1L;
         List<Long> configurationIds = List.of();
         CartProduct product = new CartProduct(productId, "fdsg-4354-g4532",
-                "Komputer", BigDecimal.valueOf(5599), ProductType.COMPUTER,
+                "Komputer", BigDecimal.valueOf(5000), BigDecimal.valueOf(6000), ProductType.COMPUTER,
                 "Komputer", List.of(new Configuration(1L, "ram_16_gb_ddr5", ConfigType.RAM,
-                BigDecimal.valueOf(999.99), "RAM 16 GB", true),
+                BigDecimal.valueOf(1000), "RAM 16 GB", true),
                 new Configuration(2L, "ram_32_gb_ddr5", ConfigType.RAM,
-                BigDecimal.valueOf(1999.99), "RAM 32 GB", false)));
+                BigDecimal.valueOf(1000), "RAM 32 GB", false)));
         CartProduct expectedProduct = new CartProduct(productId, "fdsg-4354-g4532",
-                "Komputer", BigDecimal.valueOf(5599), ProductType.COMPUTER,
+                "Komputer", BigDecimal.valueOf(5000), BigDecimal.valueOf(6000), ProductType.COMPUTER,
                 "Komputer", List.of(new Configuration(1L, "ram_16_gb_ddr5", ConfigType.RAM,
-                BigDecimal.valueOf(999.99), "RAM 16 GB", true)));
+                BigDecimal.valueOf(1000), "RAM 16 GB", true)));
 
         List<CartProduct> products = new ArrayList<>(List.of(expectedProduct));
         Cart cart = new Cart(
@@ -230,7 +228,7 @@ public class CartServiceTest {
         Cart expectedCart = new Cart(
                 id,
                 products,
-                BigDecimal.valueOf(5599));
+                BigDecimal.valueOf(6000));
 
         when(repository.findById(id)).thenReturn(Optional.of(cart));
         when(client.getProduct(productId)).thenReturn(product);
