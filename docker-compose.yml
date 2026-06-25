@@ -58,6 +58,9 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - zookeeper-data:/var/lib/zookeeper/data:Z
+      - zookeeper-log:/var/lib/zookeeper/log:Z
     ports:
       - 2181:2181
     networks:
@@ -66,8 +69,6 @@ services:
     image: confluentinc/cp-kafka:7.4.4
     depends_on:
       - zookeeper
-    ports:
-      - 29092:29092
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -78,6 +79,8 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
     networks:
       - kafka_network
+    volumes:
+      - kafka-data:/var/lib/kafka/data:Z
   schema-registry:
     image: confluentinc/cp-schema-registry:7.4.4
     networks:
@@ -89,10 +92,8 @@ services:
       SCHEMA_REGISTRY_HOST_NAME: 'schema-registry'
       SCHEMA_REGISTRY_LISTENERS: 'http://0.0.0.0:9097'
       SCHEMA_REGISTRY_LOG4J_ROOT_LOGLEVEL: 'INFO'
-    ports:
-      - 9097:9097
   akhq:
-    image: tchiotludo/akhq:latest
+    image: tchiotludo/akhq:0.25.1
     networks:
       - kafka_network
     ports:
@@ -116,22 +117,45 @@ services:
           security:
             default-group: no-roles
             roles:
+              node-read:
+                - resources: ["NODE"]
+                  actions: ["READ","READ_CONFIG"]
+              topic-read:
+                - resources: ["TOPIC","TOPIC_DATA"]
+                  actions: ["READ"]
+                - resources: ["TOPIC"]
+                  actions: ["READ_CONFIG"]
+              topic-admin:
+                - resources: ["TOPIC","TOPIC_DATA"]
+                  actions: ["READ","CREATE","DELETE"]
+                - resources: ["TOPIC"]
+                  actions: ["UPDATE","READ_CONFIG","ALTER_CONFIG"]
+              registry-read:
+                - resources: ["SCHEMA"]
+                  actions: ["READ"]
               registry-admin:
-                - resources: [ "SCHEMA" ]
-                  actions: [ "READ", "CREATE", "UPDATE", "DELETE", "DELETE_VERSION" ]
+                - resources: ["SCHEMA"]
+                  actions: ["READ","CREATE","UPDATE","DELETE","DELETE_VERSION"]
+              group-read:
+                - resources: ["CONSUMER_GROUP"]
+                  actions: ["READ"]
             groups:
-              schema-write:
+              admin:
+                - role: node-read
+                - role: topic-admin
                 - role: registry-admin
+                - role: group-read
             basic-auth:
               - username: admin
                 password: "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
                 passwordHash: SHA256
                 groups:
-                  - schema-write
+                  - admin
           connections:
             docker-kafka:
               properties:
                 bootstrap.servers: "kafka:9092"
+                security.protocol: PLAINTEXT
               schema-registry:
                 url: "http://schema-registry:9097"
   product-service:
@@ -160,7 +184,7 @@ services:
       dockerfile: cart-service/Dockerfile
       context: .
     ports:
-      - 8081:8081
+      - 8086:8086
     networks:
       - electronics-store_network
       - redis_network
@@ -171,6 +195,7 @@ services:
       - SPRING_DATA_REDIS_PASSWORD=${REDIS_PASS}
       - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_PRODUCTCLIENT_URL=http://product-service:8085/
       - SPRING_DATA_REDIS_HOST=redis
+      - SERVER_PORT=8086
       - CART_CART-PREFIX='cart:'
       - CART_TTL-HOURS=24
   order-service:
@@ -189,7 +214,7 @@ services:
       - postgresql
       - kafka
     environment:
-      - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_CARTSERVICECLIENT_URL=http://cart-service:8081/
+      - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_CARTSERVICECLIENT_URL=http://cart-service:8086/
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/order_db
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
@@ -235,7 +260,7 @@ services:
       - invoice-service
     environment:
       - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_PRODUCTCLIENT_URL=http://product-service:8085/
-      - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_CARTCLIENT_URL=http://cart-service:8081/
+      - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_CARTCLIENT_URL=http://cart-service:8086/
       - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_ORDERCLIENT_URL=http://order-service:8082/
 networks:
   electronics-store_network:
@@ -256,4 +281,10 @@ volumes:
   pgadmin_config_dir:
     driver: local
   redis-insight-data:
+    driver: local
+  kafka-data:
+    driver: local
+  zookeeper-data:
+    driver: local
+  zookeeper-log:
     driver: local
