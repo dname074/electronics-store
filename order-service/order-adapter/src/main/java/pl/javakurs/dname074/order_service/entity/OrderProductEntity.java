@@ -1,0 +1,70 @@
+package pl.javakurs.dname074.order_service.entity;
+
+import com.vladmihalcea.hibernate.type.json.JsonType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.Type;
+import pl.javakurs.dname074.order.model.Configuration;
+import pl.javakurs.dname074.order.model.ProductType;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table(name = "order_products")
+public class OrderProductEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String sku;
+    private String name;
+    @Column(name = "total_price")
+    private BigDecimal totalPrice;
+    @Enumerated(EnumType.STRING)
+    private ProductType type;
+    private String label;
+    @Type(JsonType.class)
+    @Column(columnDefinition = "jsonb", name = "configuration_snapshot")
+    private List<Configuration> configurationSnapshot;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderProductEntity that = (OrderProductEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "OrderProductEntity{" +
+                "id=" + id +
+                ", sku='" + sku + '\'' +
+                ", name='" + name + '\'' +
+                ", totalPrice=" + totalPrice +
+                ", type=" + type +
+                ", label='" + label + '\'' +
+                ", configurationSnapshot=" + configurationSnapshot +
+                '}';
+    }
+}

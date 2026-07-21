@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: damian
+      comment: "Invoices table"
+      changes:
+        - createTable:
+            tableName: invoices
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_orders_id
+              - column:
+                  name: external_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: invoice_number
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(64)
+              - column:
+                  name: created_at
+                  type: timestamptz
+                  constraints:
+                    nullable: false
+              - column:
+                  name: pdf_download_url
+                  type: varchar(255)
+                  constraints:
+                    nullable: false

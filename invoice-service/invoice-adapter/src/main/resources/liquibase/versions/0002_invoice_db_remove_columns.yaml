@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: damian
+      comment: "Remove columns: status, pdf_download_url"
+      changes:
+        - dropColumn:
+            tableName: invoices
+            columnName: status
+        - dropColumn:
+            tableName: invoices
+            columnName: pdf_download_url
